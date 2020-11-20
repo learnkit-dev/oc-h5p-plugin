@@ -1,0 +1,16 @@
+1.0.1: First version of H5p
+1.0.2:
+    - Run initial migrations
+    - 2017_05_10_015415_create_h5p_contents_libraries_table.php
+    - 2017_05_10_015415_create_h5p_contents_table.php
+    - 2017_05_10_015415_create_h5p_contents_tags_table.php
+    - 2017_05_10_015415_create_h5p_contents_user_data_table.php
+    - 2017_05_10_015415_create_h5p_counters_table.php
+    - 2017_05_10_015415_create_h5p_event_logs_table.php
+    - 2017_05_10_015415_create_h5p_libraries_cachedassets_table.php
+    - 2017_05_10_015415_create_h5p_libraries_hub_cache_table.php
+    - 2017_05_10_015415_create_h5p_libraries_languages_table.php
+    - 2017_05_10_015415_create_h5p_libraries_libraries_table.php
+    - 2017_05_10_015415_create_h5p_libraries_table.php
+    - 2017_05_10_015415_create_h5p_results_table.php
+    - 2017_05_10_015415_create_h5p_tmpfiles_table.php

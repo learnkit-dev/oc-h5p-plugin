@@ -1,0 +1,21 @@
+{
+    "name": "kloos/oc-h5p-plugin",
+    "description": "H5P plugin for October CMS",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Sebastiaan Kloos",
+            "email": "sebastiaan@kloos.dev"
+        }
+    ],
+    "require": {
+        "kloos-dev/laravel-h5p": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kloos-dev/Laravel-H5P"
+        }
+    ]
+}
