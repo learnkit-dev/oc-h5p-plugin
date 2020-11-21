@@ -2,8 +2,8 @@
 
 use Config;
 use Backend;
+use BackendAuth;
 use System\Classes\PluginBase;
-use Djoudi\LaravelH5p\LaravelH5p;
 use Illuminate\Foundation\AliasLoader;
 use Djoudi\LaravelH5p\Helpers\H5pHelper;
 use Djoudi\LaravelH5p\Commands\ResetCommand;
@@ -52,7 +52,13 @@ class Plugin extends PluginBase
         $this->bootPackages();
 
         $this->app->singleton('LaravelH5p', function ($app) {
-            $LaravelH5p = new LaravelH5p($app);
+            $LaravelH5p = new \Kloos\H5p\Classes\OctoberH5p($app);
+
+            return $LaravelH5p;
+        });
+
+        $this->app->singleton('OctoberH5p', function ($app) {
+            $LaravelH5p = new \Kloos\H5p\Classes\OctoberH5p($app);
 
             return $LaravelH5p;
         });
@@ -73,6 +79,10 @@ class Plugin extends PluginBase
             'command.laravel-h5p.migration',
             'command.laravel-h5p.reset',
         ]);
+
+        $this->app->bind('Illuminate\Contracts\Auth\Factory', function () {
+            return BackendAuth::instance();
+        });
     }
 
     /**
@@ -109,17 +119,17 @@ class Plugin extends PluginBase
 
         // h5p
         $this->publishes([
-            __DIR__.'/../../assets'                        => public_path('vendor/laravel-h5p'),
-            app_path('/../vendor/h5p/h5p-core/fonts')      => public_path('vendor/h5p/h5p-core/fonts'),
-            app_path('/../vendor/h5p/h5p-core/images')     => public_path('vendor/h5p/h5p-core/images'),
-            app_path('/../vendor/h5p/h5p-core/js')         => public_path('vendor/h5p/h5p-core/js'),
-            app_path('/../vendor/h5p/h5p-core/styles')     => public_path('vendor/h5p/h5p-core/styles'),
-            app_path('/../vendor/h5p/h5p-editor/ckeditor') => public_path('vendor/h5p/h5p-editor/ckeditor'),
-            app_path('/../vendor/h5p/h5p-editor/images')   => public_path('vendor/h5p/h5p-editor/images'),
-            app_path('/../vendor/h5p/h5p-editor/language') => public_path('vendor/h5p/h5p-editor/language'),
-            app_path('/../vendor/h5p/h5p-editor/libs')     => public_path('vendor/h5p/h5p-editor/libs'),
-            app_path('/../vendor/h5p/h5p-editor/scripts')  => public_path('vendor/h5p/h5p-editor/scripts'),
-            app_path('/../vendor/h5p/h5p-editor/styles')   => public_path('vendor/h5p/h5p-editor/styles'),
+            app_path('/../vendor/kloos-dev/laravel-h5p/assets') => public_path('vendor/laravel-h5p'),
+            app_path('/../vendor/h5p/h5p-core/fonts')           => public_path('vendor/h5p/h5p-core/fonts'),
+            app_path('/../vendor/h5p/h5p-core/images')          => public_path('vendor/h5p/h5p-core/images'),
+            app_path('/../vendor/h5p/h5p-core/js')              => public_path('vendor/h5p/h5p-core/js'),
+            app_path('/../vendor/h5p/h5p-core/styles')          => public_path('vendor/h5p/h5p-core/styles'),
+            app_path('/../vendor/h5p/h5p-editor/ckeditor')      => public_path('vendor/h5p/h5p-editor/ckeditor'),
+            app_path('/../vendor/h5p/h5p-editor/images')        => public_path('vendor/h5p/h5p-editor/images'),
+            app_path('/../vendor/h5p/h5p-editor/language')      => public_path('vendor/h5p/h5p-editor/language'),
+            app_path('/../vendor/h5p/h5p-editor/libs')          => public_path('vendor/h5p/h5p-editor/libs'),
+            app_path('/../vendor/h5p/h5p-editor/scripts')       => public_path('vendor/h5p/h5p-editor/scripts'),
+            app_path('/../vendor/h5p/h5p-editor/styles')        => public_path('vendor/h5p/h5p-editor/styles'),
         ], 'public');
     }
 

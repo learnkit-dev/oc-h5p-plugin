@@ -3,12 +3,13 @@
 use Illuminate\Routing\Controller;
 use Djoudi\LaravelH5p\Eloquents\H5pContent;
 use Djoudi\LaravelH5p\Events\H5pEvent;
-use Djoudi\LaravelH5p\LaravelH5p;
+use Kloos\H5p\Classes\OctoberH5p as LaravelH5p;
 use Djoudi\LaravelH5p\Exceptions\H5PException;
 use H5pCore;
+use Backend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
+use BackendAuth as Auth;
 
 class H5pController extends Controller
 {
@@ -54,7 +55,7 @@ class H5pController extends Controller
 
         $user = Auth::user();
 
-        return view('h5p.content.create', compact('settings', 'user', 'library', 'parameters', 'display_options'));
+        return redirect(Backend::url('kloos/h5p/test'));
     }
 
     public function store(Request $request)

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\App;
+
 Route::group(['middleware' => ['web']], function () {
     if (config('laravel-h5p.use_router') == 'EDITOR' || config('laravel-h5p.use_router') == 'ALL') {
         Route::resource('h5p', "Kloos\H5p\Http\H5pController");
@@ -35,7 +37,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('h5p/export/{id}', 'Kloos\H5p\Http\DownloadController')->name('h5p.export');
     //    }
 });
-
 
 Route::prefix('api')->group(function () {
     Route::group(['middleware' => ['api']], function () {
@@ -73,4 +74,20 @@ Route::prefix('api')->group(function () {
         Route::post('library/clear', "Djoudi\LaravelH5p\Http\LibraryController@clear")->name('h5p.library.clear');
 
     });
+});
+
+Route::get('/h5pintegration-settings.js', function () {
+    $h5p = App::make('LaravelH5p');
+    $core = $h5p::$core;
+
+    // Prepare form
+    $library = 0;
+    $parameters = '{}';
+
+    $display_options = $core->getDisplayOptionsForEdit(null);
+
+    // view Get the file and settings to print from
+    $settings = $h5p::get_editor();
+
+    return 'H5PIntegration = ' . json_encode($settings);
 });

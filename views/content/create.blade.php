@@ -13,7 +13,7 @@
             {!! Form::open(['route' => ['h5p.store'], 'class'=>'form-horizontal', 'enctype'=>"multipart/form-data", 'id'=>'laravel-h5p-form']) !!}
             <input type="hidden" name="library" id="laravel-h5p-library" value="{{ $library }}">
             <input type="hidden" name="parameters" id="laravel-h5p-parameters" value="{{ $parameters }}">
-            
+
             <fieldset>
 
                 <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
@@ -41,7 +41,7 @@
                             <div id="laravel-h5p-editor">{{ trans('laravel-h5p.content.loading_content') }}</div>
                         </div>
 
-                        @if ($errors->has('parameters'))                 
+                        @if ($errors->has('parameters'))
                         <span class="help-block">
                             {{ $errors->first('parameters') }}
                         </span>
@@ -163,8 +163,8 @@
 
                 </div>
                 @endif
-                
-                
+
+
                 <div class="form-group">
                 <div class="col-md-9 col-md-offset-3">
                     <a href="{{ route('h5p.index') }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ trans('laravel-h5p.content.cancel') }}</a>
@@ -182,7 +182,7 @@
             </fieldset>
 
 
-            
+
 
             {!! Form::close() !!}
 
