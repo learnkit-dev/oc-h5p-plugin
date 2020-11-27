@@ -1,5 +1,6 @@
 <?php namespace Kloos\H5p\Http;
 
+use BackendAuth;
 use Illuminate\Routing\Controller;
 use Djoudi\LaravelH5p\Events\H5pEvent;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ class EmbedController extends Controller
 {
     public function __invoke(Request $request, $id)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
         $settings = $h5p::get_editor();
         $content = $h5p->get_content($id);
@@ -19,6 +20,12 @@ class EmbedController extends Controller
 
         event(new H5pEvent('content', null, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
 
-        return view('h5p.content.embed', compact('settings', 'user', 'embed_code'));
+        $user = BackendAuth::getUser();
+
+        return view('kloos.h5p::content.embed', [
+            'settings' => $settings,
+            'user' => $user,
+            'embed_code' => $embed_code
+        ]);
     }
 }

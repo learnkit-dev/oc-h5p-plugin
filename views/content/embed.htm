@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <title>H5P</title>
+
+    {% for style in settings.core.styles %}
+        <style href="{{ style }}" rel="stylesheet" type="text/css"></style>
+    {% endfor %}
+
+    {% for style1 in settings.loadedCss %}
+        <style href="{{ style1 }}" rel="stylesheet" type="text/css"></style>
+    {% endfor %}
+</head>
+
+<body>
+
+<div id="app">
+    {{ embed_code|raw }}
+</div>
+
+<script type="text/javascript">
+    H5PIntegration = {{ settings|json_encode()|raw }};
+</script>
+
+{% for script in settings.core.scripts %}
+    <script src="{{ url(script) }}"></script>
+{% endfor %}
+
+{% for script in settings.loadedJs %}
+    <script src="{{ url(script) }}"></script>
+{% endfor %}
+
+</body>
+</html>

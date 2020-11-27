@@ -33,7 +33,7 @@ Route::group(['middleware' => ['web']], function () {
 
     // export
     //    if (config('laravel-h5p.use_router') == 'EXPORT' || config('laravel-h5p.use_router') == 'ALL') {
-    Route::get('h5p/embed/{id}', 'Kloos\H5p\Http\EmbedController')->name('h5p.embed');
+    Route::get('h5p/embed/{id}', 'Kloos\H5p\Http\EmbedController');
     Route::get('h5p/export/{id}', 'Kloos\H5p\Http\DownloadController')->name('h5p.export');
     //    }
 });

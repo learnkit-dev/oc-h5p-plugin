@@ -6,6 +6,7 @@ use Backend\Classes\Controller;
 use Kloos\H5p\Http\H5pController;
 use Djoudi\LaravelH5p\Events\H5pEvent;
 use BackendAuth as Auth;
+use Djoudi\LaravelH5p\Exceptions\H5PException;
 
 /**
  * Test Back-end Controller
@@ -38,13 +39,16 @@ class Test extends Controller
 
     public function onHandleFileUpload()
     {
-        $h5p = \Illuminate\Support\Facades\App::make('OctoberH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
         $editor = $h5p::$h5peditor;
 
         $oldLibrary = null;
         $oldParams = null;
         $event_type = 'create';
+
+        $content = $h5p::get_content(null);
+
         $content = [
             'disable'    => \H5PCore::DISABLE_NONE,
             'user_id'    => Auth::getUser()->id,
@@ -56,17 +60,53 @@ class Test extends Controller
 
         $content['filtered'] = '';
 
-        try {
-            $content['uploaded'] = true;
+        if (post('action') == 'create') {
+            $content['library'] = $core->libraryFromString(post('library'));
+            if (!$content['library']) {
+                throw new H5PException('Invalid library.');
+            }
 
-            $this->get_disabled_content_features($core, $content);
+            // Check if library exists
+            $content['library']['libraryId'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
+            if (!$content['library']['libraryId']) {
+                throw new H5PException('No such library');
+            }
 
-            // Handle file upload
-            $return_id = $this->handleUpload($content);
+            // New
+            $params = json_decode(post('parameters'));
+            $content['params'] = json_encode($params->params);
+            if ($params === null) {
+                throw new H5PException('Invalid parameters');
+            }
+
+            $content['metadata'] = json_encode($params->metadata);
+
+            static::get_disabled_content_features($core, $content);
+
+            // Save new content
+            $core->saveContent($content);
+
+            // Move images and find all content dependencies
+            $editor->processParameters($content['id'], $content['library'], $params, $oldLibrary, $oldParams);
+
+            $return_id = $content['id'];
 
             return $return_id;
-        } catch (\H5PException $ex) {
-            return 0;
+        }
+
+        if (post('action') == 'upload') {
+            try {
+                $content['uploaded'] = true;
+
+                $this->get_disabled_content_features($core, $content);
+
+                // Handle file upload
+                $return_id = $this->handleUpload($content);
+
+                return $return_id;
+            } catch (\H5PException $ex) {
+                return 0;
+            }
         }
     }
 

@@ -146,7 +146,7 @@ class OctoberH5p
     public function get_embed($content, $settings, $no_cache = false)
     {
         // Detemine embed type
-        $embed = H5PCore::determineEmbedType($content['embedType'], $content['library']['embedTypes']);
+        $embed = \H5PCore::determineEmbedType($content['embedType'], $content['library']['embedTypes']);
         // Make sure content isn't added twice
         $cid = 'cid-'.$content['id'];
         if (!isset($settings['contents'][$cid])) {
@@ -346,9 +346,9 @@ class OctoberH5p
             'jsonContent'     => $safe_parameters,
             'fullScreen'      => $content['library']['fullscreen'],
             'exportUrl'       => config('laravel-h5p.h5p_export') ? route('h5p.export', [$content['id']]) : '',
-            'embedCode'       => '<iframe src="'.route('h5p.embed', ['id' => $content['id']]).'" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen"></iframe>',
+            'embedCode'       => '<iframe src="' . url('/h5p/embed/' . $content['id']) . '" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen"></iframe>',
             'resizeCode'      => '<script src="'.self::get_h5pcore_url('/js/h5p-resizer.js').'" charset="UTF-8"></script>',
-            'url'             => route('h5p.embed', ['id' => $content['id']]),
+            'url'             => url('/h5p/embed/' . $content['id']),
             'title'           => $content['title'],
             'displayOptions'  => self::$core->getDisplayOptionsForView($content['disable'], $author_id),
             'contentUserData' => [
