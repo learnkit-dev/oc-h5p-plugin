@@ -1,0 +1,17 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    embed_url:
+        label: Embed url
+        span: left
+        type: text
+        disabled: true
+        context:
+            - update
+            - preview
+    content:
+        label: Content
+        span: full
+        type: h5peditor

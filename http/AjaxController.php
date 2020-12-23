@@ -1,6 +1,7 @@
 <?php namespace Kloos\H5p\Http;
 
 use DB;
+use BackendAuth as Auth;
 use Illuminate\Routing\Controller;
 use Djoudi\LaravelH5p\Events\H5pEvent;
 use Djoudi\LaravelH5p\LaravelH5p;
@@ -19,7 +20,7 @@ class AjaxController extends Controller
         $major_version = $request->get('majorVersion');
         $minor_version = $request->get('minorVersion');
 
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
         $editor = $h5p::$h5peditor;
 
@@ -35,21 +36,21 @@ class AjaxController extends Controller
 
     public function singleLibrary(Request $request)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $editor = $h5p::$h5peditor;
         $editor->ajax->action(H5PEditorEndpoints::SINGLE_LIBRARY, $request->get('_token'));
     }
 
     public function contentTypeCache(Request $request)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $editor = $h5p::$h5peditor;
         $editor->ajax->action(H5PEditorEndpoints::CONTENT_TYPE_CACHE, $request->get('_token'));
     }
 
     public function libraryInstall(Request $request)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $editor = $h5p::$h5peditor;
         $editor->ajax->action(H5PEditorEndpoints::LIBRARY_INSTALL, $request->get('_token'), $request->get('machineName'));
     }
@@ -57,7 +58,7 @@ class AjaxController extends Controller
     public function libraryUpload(Request $request)
     {
         $filePath = $request->file('h5p')->getPathName();
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $editor = $h5p::$h5peditor;
         $editor->ajax->action(H5PEditorEndpoints::LIBRARY_UPLOAD, $request->get('_token'), $filePath, $request->get('contentId'));
     }
@@ -65,7 +66,7 @@ class AjaxController extends Controller
     public function files(Request $request)
     {
         $filePath = $request->file('file');
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $editor = $h5p::$h5peditor;
         $editor->ajax->action(H5PEditorEndpoints::FILES, $request->get('_token'), $request->get('contentId'));
     }
@@ -92,10 +93,7 @@ class AjaxController extends Controller
 
     public function finish(Request $request)
     {
-        $user_id = \Auth::id();
-        //dd($request);
-
-
+        $user_id = Auth::getUser()->id;
 
         if ((int)$user_id > 0) {
 
@@ -180,14 +178,14 @@ class AjaxController extends Controller
             }
 
             $result = [
-                'content_id' => $h5p_id,
+                'content_id' => input('contentId'),
                 'subcontent_id' => $h5p_id_subc,
                 'user_id' => $user_id,
                 'score' => $request->has('result.score.raw') ? $request->input('result.score.raw') : 0,
                 'max_score' => $request->has('result.score.max') ? $request->input('result.score.max') : 0,
                 'opened' => $previous_result ? $previous_result->opened : now(),
                 'finished' => $finished ? now() : null,
-                'time' => round(str_replace(['PT', 'S'], '', $request->input('result.duration'))),
+                'time' => round(str_replace(['PT', 'S'], '', (int) input('finished') - (int) input('opened'))),
                 'description' => $request->has('object.definition.description') ? json_encode($request->input('object.definition.description')) : ($request->has('object.definition.name') ? json_encode($request->input('object.definition.name') ): null),
                 'correct_responses_pattern' => $request->has('object.definition.correctResponsesPattern') ? json_encode($request->input('object.definition.correctResponsesPattern')) : null,
                 'response' => $request->has('result.response') ? json_encode($request->input('result.response')) : null,
@@ -208,9 +206,9 @@ class AjaxController extends Controller
 
 
             } else {
-                $previous_result = \Djoudi\LaravelH5p\Eloquents\H5pResult::create($result);
+                $previous_result = new \Djoudi\LaravelH5p\Eloquents\H5pResult($result);
 
-
+                $previous_result->save();
             }
 
             $remonteeParent = false;
@@ -355,7 +353,7 @@ class AjaxController extends Controller
     {
         $retour = [];
 
-        $user_id = \Auth::id();
+        $user_id = Auth::getUser()->id;
 
         if ((int)$user_id > 0) {
             // Query String Parameters.
@@ -417,10 +415,10 @@ class AjaxController extends Controller
     public function dom(Request $request, $id = 0)
     {
         //dd('ici api h5p');
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
 
-        $user = \Auth::user();
+        $user = Auth::getUser();
 
 
 

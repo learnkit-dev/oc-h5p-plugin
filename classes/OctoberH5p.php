@@ -1,5 +1,6 @@
 <?php namespace Kloos\H5p\Classes;
 
+use DB;
 use Kloos\H5p\Http\H5pController;
 use Illuminate\Support\Facades\App;
 use Djoudi\LaravelH5p\Events\H5pEvent;
@@ -200,7 +201,7 @@ class OctoberH5p
         $settings = [
             'baseUrl'            => config('laravel-h5p.domain'),
             'url'                => config('laravel-h5p.domain').'/api/h5p_protect?'.(Auth::check() ? 'token=blablabla&' : '').'data=',//self::get_h5p_storage(), // for uploaded
-            'postUserStatistics' => (config('laravel-h5p.h5p_track_user', true) === '1') && Auth::check(),
+            'postUserStatistics' => (config('laravel-h5p.h5p_track_user', true) === '1') && Auth::getUser(),
             'ajax'               => [
                 'setFinished'     => url('api/ajax/finish'),
                 //'contentUserData' => route('h5p.ajax.content-user-data'),
@@ -234,7 +235,7 @@ class OctoberH5p
             'scripts' => [],
         ];
 
-        $settings['core']['scripts'][] = url('/h5pintegration-settings.js');
+        //$settings['core']['scripts'][] = url('/h5pintegration-settings.js');
 
         $settings['core']['styles'][] = url('/plugins/kloos/h5p/assets/css/laravel-h5p.css');
 
@@ -246,8 +247,6 @@ class OctoberH5p
         }
 
         $settings['core']['scripts'][] = self::get_h5peditor_url('/scripts/h5peditor-editor.js');
-
-        $settings['core']['scripts'][] = url('/plugins/kloos/h5p/assets/js/laravel-h5p.js');
 
         return $settings;
     }

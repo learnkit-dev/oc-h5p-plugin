@@ -1,0 +1,44 @@
+<div
+    data-control="h5pEditor">
+    <input type="hidden" name="library" value="<?= $library ?>">
+    <input type="hidden" name="parameters" value='<?= $parameters ?>'>
+
+    <div id="h5p-editor"></div>
+</div>
+
+<!--
+<form data-request="onHandleFileUpload" data-request-files id="laravel-h5p-form">
+    <input type="hidden" name="library" id="laravel-h5p-library" value="0">
+    <input type="hidden" name="parameters" id="laravel-h5p-parameters" value="{}">
+    <div class="form-group laravel-h5p-upload-container">
+        <label for="inputUpload" class="control-label col-md-3">Upload content</label>
+        <div class="col-md-9">
+            <input type="file" name="h5p_file" id="h5p-file" class="laravel-h5p-upload form-control"/>
+            <small class="h5p-disable-file-check helper-block">
+                <label class="">
+                    <input type="checkbox" name="h5p_disable_file_check" id="h5p-disable-file-check"/> Disable extension check
+                </label>
+            </small>
+
+            <input type="submit" value="Uploaden" />
+        </div>
+    </div>
+
+    <div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
+        <label for="inputAction" class="control-label col-md-3">Action</label>
+        <div class="col-md-6">
+
+            <label class="radio-inline">
+                <input type="radio" name="action" value="upload" class="laravel-h5p-type" >Upload
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="action" value="create" class="laravel-h5p-type" checked="checked"/>Create
+            </label>
+        </div>
+    </div>
+
+    <div id="laravel-h5p-editor">Test</div>
+
+    <input type="submit" value="Save" />
+</form>
+-->

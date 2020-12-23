@@ -54,17 +54,19 @@ Route::prefix('api')->group(function () {
         Route::post('ajax/library-upload', 'Kloos\H5p\Http\AjaxController@libraryUpload')->name('h5p.ajax.library-upload');
         Route::post('ajax/rebuild-cache', 'Kloos\H5p\Http\AjaxController@rebuildCache')->name('h5p.ajax.rebuild-cache');
         Route::post('ajax/files', 'Kloos\H5p\Http\AjaxController@files')->name('h5p.ajax.files');
-        Route::get('ajax/finish', 'Kloos\H5p\Http\AjaxController@finish')->name('h5p.ajax.finish');
-        Route::post('ajax/content-user-data', 'Kloos\H5p\Http\AjaxController@contentUserData')->name('h5p.ajax.content-user-data');
-        Route::get('ajax/content-user-data', 'Kloos\H5p\Http\AjaxController@contentUserData')->name('h5p.ajax.content-user-data');
+        Route::get('ajax/finish', 'Kloos\H5p\Http\AjaxController@finish')->name('h5p.ajax.finish')->middleware('web');
+        Route::post('ajax/content-user-data', 'Kloos\H5p\Http\AjaxController@contentUserData')->name('h5p.ajax.content-user-data')->middleware('web');
+        Route::get('ajax/content-user-data', 'Kloos\H5p\Http\AjaxController@contentUserData')->name('h5p.ajax.content-user-data')->middleware('web');
         Route::post('ajax/translations', 'Kloos\H5p\Http\AjaxController@getTranslations')->name('h5p.ajax.translation');
 
         Route::get('h5p/embed/{id}', 'Kloos\H5p\Http\EmbedController')->name('h5p.embed');
         Route::get('h5p/export/{id}', 'Kloos\H5p\Http\DownloadController')->name('h5p.export');
 
-        Route::group(['middleware' => 'auth:api'], function(){
+
+        Route::group(['middleware' => 'web'], function(){
             Route::post('ajax/finish', 'Kloos\H5p\Http\AjaxController@finish')->name('h5p.ajax.finish');
         });
+
 
         Route::get('library', "Djoudi\LaravelH5p\Http\LibraryController@index")->name('h5p.library.index');
         Route::get('library/show/{id}', "Djoudi\LaravelH5p\Http\LibraryController@show")->name('h5p.library.show');
@@ -90,4 +92,8 @@ Route::get('/h5pintegration-settings.js', function () {
     $settings = $h5p::get_editor();
 
     return 'H5PIntegration = ' . json_encode($settings);
+});
+
+Route::get('/kloos/h5p/embed/{id}', function ($contentId) {
+
 });

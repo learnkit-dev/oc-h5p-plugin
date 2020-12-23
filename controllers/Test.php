@@ -26,6 +26,8 @@ class Test extends Controller
 
         $settings = $h5p::get_editor();
 
+        $this->addJs(url('/h5pintegration-settings.js'));
+
         foreach ($settings['core']['scripts'] as $script) {
             $this->addJs($script);
         }
@@ -62,6 +64,7 @@ class Test extends Controller
 
         if (post('action') == 'create') {
             $content['library'] = $core->libraryFromString(post('library'));
+
             if (!$content['library']) {
                 throw new H5PException('Invalid library.');
             }
@@ -84,7 +87,7 @@ class Test extends Controller
             static::get_disabled_content_features($core, $content);
 
             // Save new content
-            $core->saveContent($content);
+            $content['id'] = $core->saveContent($content);
 
             // Move images and find all content dependencies
             $editor->processParameters($content['id'], $content['library'], $params, $oldLibrary, $oldParams);

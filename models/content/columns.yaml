@@ -1,0 +1,20 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        searchable: true
+    title:
+        label: Title
+        searchable: true
+    library[name]:
+        label: Library
+        searchable: true
+    backend_user:
+        label: Author
+        relation: backend_user
+        select: concat(first_name, ' ', last_name)
+        searchable: true
+        sortable: true

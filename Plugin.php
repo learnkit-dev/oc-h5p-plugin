@@ -171,16 +171,33 @@ class Plugin extends PluginBase
      */
     public function registerNavigation()
     {
-        return []; // Remove this line to activate
-
         return [
             'h5p' => [
-                'label'       => 'H5p',
-                'url'         => Backend::url('kloos/h5p/mycontroller'),
-                'icon'        => 'icon-leaf',
+                'label'       => 'H5P',
+                'url'         => Backend::url('kloos/h5p/dashboard'),
+                'iconSvg'     => '/plugins/kloos/h5p/h5p.svg',
                 'permissions' => ['kloos.h5p.*'],
                 'order'       => 500,
+                'sideMenu' => [
+                    'dashboard' => [
+                        'label' => 'Dashboard',
+                        'url' => Backend::url('/kloos/h5p/dashboard'),
+                        'icon' => 'icon-dashboard',
+                    ],
+                    'contents' => [
+                        'label' => 'Contents',
+                        'url' => Backend::url('/kloos/h5p/contents'),
+                        'icon' => 'icon-list',
+                    ],
+                ],
             ],
+        ];
+    }
+
+    public function registerFormWidgets()
+    {
+        return [
+            'Kloos\H5p\FormWidgets\H5pEditor' => 'h5peditor',
         ];
     }
 
