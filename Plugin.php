@@ -12,6 +12,10 @@ use Kloos\H5p\Classes\H5pHelper;
  */
 class Plugin extends PluginBase
 {
+    public $require = [
+        'RainLab.User',
+    ];
+
     /**
      * Returns information about this plugin.
      *

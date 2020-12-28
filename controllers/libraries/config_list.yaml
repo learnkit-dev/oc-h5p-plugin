@@ -11,9 +11,6 @@ modelClass: Kloos\H5p\Models\Library
 # List Title
 title: Manage Libraries
 
-# Link URL for each record
-recordUrl: kloos/h5p/libraries/update/:id
-
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records
 

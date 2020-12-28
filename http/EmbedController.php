@@ -11,7 +11,6 @@ class EmbedController extends Controller
     public function __invoke(Request $request, $id)
     {
         $h5p = App::make('OctoberH5p');
-        $core = $h5p::$core;
         $settings = $h5p::get_editor();
         $content = $h5p->get_content($id);
         $embed = $h5p->get_embed($content, $settings);
