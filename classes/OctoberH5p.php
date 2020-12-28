@@ -63,6 +63,10 @@ class OctoberH5p
     public static function get_url($path = '')
     {
         if (str_contains($path, 'h5p-core') || str_contains($path, 'h5p-editor')) {
+            if (file_exists(plugins_path('kloos/h5p/vendor/autoload.php'))) {
+                return url('/plugins/kloos/h5p/vendor' . $path);
+            }
+
             return url('/vendor'.$path);
         } else {
             return url('/storage'.$path);
