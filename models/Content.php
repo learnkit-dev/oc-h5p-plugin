@@ -4,6 +4,8 @@ use App;
 use Model;
 use BackendAuth;
 use Backend\Models\User;
+use Kloos\H5p\Classes\H5pEvent;
+use Kloos\H5p\Http\H5pController;
 
 /**
  * Content Model
@@ -109,5 +111,60 @@ class Content extends Model
         $this->embed_type = 'div';
 
         $this->metadata = $parameters['metadata'];
+    }
+
+    public function afterSave()
+    {
+        $h5p = App::make('OctoberH5p');
+        $core = $h5p::$core;
+        $editor = $h5p::$h5peditor;
+
+        $event_type = 'update';
+        $content = $h5p::get_content($this->id);
+        $content['embed_type'] = 'div';
+        $content['user_id'] = BackendAuth::getUser()->id;
+        $content['disable'] = input('disable') ? input('disable') : false;
+        $content['filtered'] = '';
+
+        $oldLibrary = $content['library'];
+        $oldParams = json_decode($content['params']);
+
+        $content['library'] = $core->libraryFromString(input('library'));
+        if (!$content['library']) {
+            throw new \H5PException('Invalid library.');
+        }
+
+        // Check if library exists.
+        $content['library']['libraryId'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
+        if (!$content['library']['libraryId']) {
+            throw new \H5PException('No such library');
+        }
+
+        //                $content['parameters'] = $request->get('parameters');
+        //old
+        //$content['params'] = $request->get('parameters');
+        //$params = json_decode($content['params']);
+
+        //new
+        $params = json_decode(input('parameters'));
+        $content['params'] = json_encode($params->params);
+        if ($params === null) {
+            throw new \H5PException('Invalid parameters');
+        }
+
+        $content['metadata'] = json_encode($params->metadata);
+
+        //$content['keywords'] = $params->metadata->title;
+
+        // Set disabled features
+        H5pController::get_disabled_content_features($core, $content);
+
+        // Save new content
+        $core->saveContent($content);
+
+        // Move images and find all content dependencies
+        $editor->processParameters($content['id'], $content['library'], $params, $oldLibrary, $oldParams);
+
+        event(new H5pEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
     }
 }
