@@ -1,24 +1,23 @@
 <?php namespace Kloos\H5p\Http;
 
-use Illuminate\Routing\Controller;
 use DB;
-use Djoudi\LaravelH5p\Eloquents\H5pContent;
-use Djoudi\LaravelH5p\Eloquents\H5pLibrary;
-use Djoudi\LaravelH5p\LaravelH5p;
 use H5PCore;
 use Illuminate\Http\Request;
+use Kloos\H5p\Models\Library;
+use Kloos\H5p\Models\Content;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 
 class LibraryController extends Controller
 {
     public function index(Request $request)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
         $interface = $h5p::$interface;
         $not_cached = $interface->getNumNotFiltered();
 
-        $entrys = H5pLibrary::paginate(10);
+        $entrys = Library::paginate(10);
         $settings = $h5p::get_core([
             'libraryList' => [
                 'notCached' => $not_cached,
@@ -65,7 +64,7 @@ class LibraryController extends Controller
         $library = $this->get_library($id);
 
         // Add settings and translations
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
         $interface = $h5p::$interface;
 
@@ -115,7 +114,7 @@ class LibraryController extends Controller
         ]);
 
         if ($request->hasFile('h5p_file') && $request->file('h5p_file')->isValid()) {
-            $h5p = App::make('LaravelH5p');
+            $h5p = App::make('OctoberH5p');
             $validator = $h5p::$validator;
             $interface = $h5p::$interface;
 
@@ -149,9 +148,9 @@ class LibraryController extends Controller
 
     public function destroy(Request $request)
     {
-        $library = H5pLibrary::findOrFail($request->get('id'));
+        $library = Library::findOrFail($request->get('id'));
 
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $interface = $h5p::$interface;
 
         // Error if in use
@@ -170,12 +169,12 @@ class LibraryController extends Controller
 
     public function clear(Request $request)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
 
         // Do as many as we can in five seconds.
         $start = microtime(true);
-        $contents = H5pContent::where('filtered', '')->get();
+        $contents = Content::where('filtered', '')->get();
 
         $done = 0;
 
@@ -196,7 +195,7 @@ class LibraryController extends Controller
 
     public function restrict(Request $request)
     {
-        $entry = H5pLibrary::where('id', $request->get('id'))->first();
+        $entry = Library::where('id', $request->get('id'))->first();
 
         if ($entry) {
             if ($entry->restricted == '1') {
@@ -261,7 +260,7 @@ class LibraryController extends Controller
         }
 
         // Try to find content with $id.
-        return H5pLibrary::findOrFail($id);
+        return Library::findOrFail($id);
     }
 
     /**

@@ -1,16 +1,17 @@
 <?php namespace Kloos\H5p\Http;
 
 use DB;
-use BackendAuth as Auth;
-use Illuminate\Routing\Controller;
-use Djoudi\LaravelH5p\Events\H5pEvent;
-use Djoudi\LaravelH5p\LaravelH5p;
+use App;
+use Log;
 use H5PEditorEndpoints;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-
-use Illuminate\Support\Facades\Log;
+use BackendAuth as Auth;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Kloos\H5p\Models\Result;
+use Kloos\H5p\Classes\H5pEvent;
+use Illuminate\Routing\Controller;
+use Kloos\H5p\Classes\ResultEvent;
+use Kloos\H5p\Models\ContentsUserData;
 
 class AjaxController extends Controller
 {
@@ -119,7 +120,7 @@ class AjaxController extends Controller
 
                     foreach($paires as $paire){
 
-                        list($prop, $value) = explode('=', $paire);
+                        [$prop, $value] = explode('=', $paire);
 
                         switch($prop){
                             case 'formation_id':
@@ -165,7 +166,7 @@ class AjaxController extends Controller
             $h5p_id = $h5p_ids_parts[0];
             $h5p_id_subc = isset($h5p_ids_parts[1]) ? $h5p_ids_parts[1] : null;
 
-            $previous_result = \Djoudi\LaravelH5p\Eloquents\H5pResult::where('content_id', $h5p_id)->where('subcontent_id', $h5p_id_subc)->where('user_id', $user_id)->first();
+            $previous_result = Result::where('content_id', $h5p_id)->where('subcontent_id', $h5p_id_subc)->where('user_id', $user_id)->first();
 
             $finished = false;
             if ($request->input('verb.id') == "http://adlnet.gov/expapi/verbs/answered" || $request->input('verb.id') == "http://adlnet.gov/expapi/verbs/completed") {
@@ -206,7 +207,7 @@ class AjaxController extends Controller
 
 
             } else {
-                $previous_result = new \Djoudi\LaravelH5p\Eloquents\H5pResult($result);
+                $previous_result = new Result($result);
 
                 $previous_result->save();
             }
@@ -227,7 +228,7 @@ class AjaxController extends Controller
                                 if(isset($interaction->libraryTitle) && $interaction->libraryTitle == 'Multiple Choice'){
                                     $interaction->action->subContentId;
 
-                                    $child = \Djoudi\LaravelH5p\Eloquents\H5pResult::firstOrCreate(['content_id' => $h5p_id, 'subcontent_id' => $interaction->action->subContentId, 'user_id' => $user_id], ['opened'=>now(), 'score'=>0, 'max_score'=>1]);
+                                    $child = Result::firstOrCreate(['content_id' => $h5p_id, 'subcontent_id' => $interaction->action->subContentId, 'user_id' => $user_id], ['opened'=>now(), 'score'=>0, 'max_score'=>1]);
                                 }
                             }
                         }
@@ -251,7 +252,7 @@ class AjaxController extends Controller
                                     if( Str::startsWith($element->action->library, 'H5P.SingleChoiceSet')){
                                         foreach($element->action->params->choices as $choice){
                                             $choice->subContentId;
-                                            $child = \Djoudi\LaravelH5p\Eloquents\H5pResult::firstOrCreate(['content_id' => $h5p_id, 'subcontent_id' => $choice->subContentId, 'user_id' => $user_id], ['opened'=>now(), 'score'=>0, 'max_score'=>1]);
+                                            $child = Result::firstOrCreate(['content_id' => $h5p_id, 'subcontent_id' => $choice->subContentId, 'user_id' => $user_id], ['opened'=>now(), 'score'=>0, 'max_score'=>1]);
 
                                         }
                                     }
@@ -265,7 +266,7 @@ class AjaxController extends Controller
                                 if (Str::startsWith($content->content->library, 'H5P.SingleChoiceSet')){
                                     foreach($content->content->params->choices as $choice){
                                         $choice->subContentId;
-                                        $child = \Djoudi\LaravelH5p\Eloquents\H5pResult::firstOrCreate(['content_id' => $h5p_id, 'subcontent_id' => $choice->subContentId, 'user_id' => $user_id], ['opened'=>now(), 'score'=>0, 'max_score'=>1]);
+                                        $child = Result::firstOrCreate(['content_id' => $h5p_id, 'subcontent_id' => $choice->subContentId, 'user_id' => $user_id], ['opened'=>now(), 'score'=>0, 'max_score'=>1]);
 
                                     }
                                 }
@@ -279,9 +280,9 @@ class AjaxController extends Controller
 
             //remontée sur le parent
             if ($h5p_id_subc && $remonteeParent) {
-                $parent = \Djoudi\LaravelH5p\Eloquents\H5pResult::firstOrCreate(['content_id' => $h5p_id, 'subcontent_id' => null, 'user_id' => $user_id], ['opened'=>now(), 'score'=>0, 'max_score'=>0]);
+                $parent = Result::firstOrCreate(['content_id' => $h5p_id, 'subcontent_id' => null, 'user_id' => $user_id], ['opened'=>now(), 'score'=>0, 'max_score'=>0]);
                 if ($parent) {
-                    $contents = \Djoudi\LaravelH5p\Eloquents\H5pResult::where('content_id', $h5p_id)->whereNotNull('subcontent_id')->where('user_id', $user_id)->get();
+                    $contents = Result::where('content_id', $h5p_id)->whereNotNull('subcontent_id')->where('user_id', $user_id)->get();
 
                     $data = [];//donnée pour maj parent
                     $data['content_id'] = $h5p_id;
@@ -328,19 +329,14 @@ class AjaxController extends Controller
 
                     $parent->update($data);
                     //if ($data['finished'] != -1 && $data['finished'] != null) {
-                        event(new \Djoudi\LaravelH5p\Events\H5pResultEvent('result', 'finished', $data));
+                        event(new ResultEvent('result', 'finished', $data));
                     //}
                 }
             } else {
                 if($result['finished'] != null){
-                    event(new \Djoudi\LaravelH5p\Events\H5pResultEvent('result', 'finished', $result));
+                    event(new ResultEvent('result', 'finished', $result));
                 }
             }
-
-
-            //event(new \Djoudi\LaravelH5p\Events\H5pResultEvent('test', 'debug', $result));
-
-
         } else {
 
         }
@@ -368,14 +364,14 @@ class AjaxController extends Controller
 
             if ($data !== null && $preload !== null && $invalidate !== null) {
                 if ($data === '0') { // Delete user data.
-                    \Djoudi\LaravelH5p\Eloquents\H5pContentsUserData::where('content_id', $content_id)
+                    ContentsUserData::where('content_id', $content_id)
                     ->where('user_id', $user_id)
                     ->where('sub_content_id', $sub_content_id)
                     ->where('data_id', $data_type)
                     ->delete();
 
                 } else { //create/update data
-                    $contentUserData = \Djoudi\LaravelH5p\Eloquents\H5pContentsUserData::updateOrCreate([
+                    $contentUserData = ContentsUserData::updateOrCreate([
                         'content_id' => $content_id,
                         'user_id' => $user_id,
                         'sub_content_id' => $sub_content_id,
@@ -389,7 +385,7 @@ class AjaxController extends Controller
                 }
 
             } else { //retrieve data
-                $contentUserData = \Djoudi\LaravelH5p\Eloquents\H5pContentsUserData::where('content_id', $content_id)
+                $contentUserData = ContentsUserData::where('content_id', $content_id)
                     ->where('user_id', $user_id)
                     ->where('sub_content_id', $sub_content_id)
                     ->where('data_id', $data_type)

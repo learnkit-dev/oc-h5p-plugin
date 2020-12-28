@@ -1,21 +1,20 @@
 <?php namespace Kloos\H5p\Http;
 
-use Illuminate\Routing\Controller;
-use Djoudi\LaravelH5p\Eloquents\H5pContent;
-use Djoudi\LaravelH5p\Events\H5pEvent;
-use Kloos\H5p\Classes\OctoberH5p as LaravelH5p;
-use Djoudi\LaravelH5p\Exceptions\H5PException;
-use H5pCore;
 use Backend;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use H5pCore;
 use BackendAuth as Auth;
+use Illuminate\Http\Request;
+use Kloos\H5p\Models\Content;
+use Kloos\H5p\Classes\H5pEvent;
+use Kloos\H5p\Classes\OctoberH5p;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App;
 
 class H5pController extends Controller
 {
     public function index(Request $request)
     {
-        $where = H5pContent::orderBy('h5p_contents.id', 'desc');
+        $where = Content::orderBy('h5p_contents.id', 'desc');
 
         if ($request->query('sf') && $request->query('s')) {
             if ($request->query('sf') == 'title') {
@@ -38,7 +37,7 @@ class H5pController extends Controller
 
     public function create(Request $request)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
 
         // Prepare form
@@ -146,7 +145,7 @@ class H5pController extends Controller
                 ->with('fail', trans('laravel-h5p.content.can_not_created'));
         }*/
 
-        $return_id = LaravelH5p::controllerStore($request, $this);
+        $return_id = OctoberH5p::controllerStore($request, $this);
 
         if ($return_id) {
             return redirect()
@@ -161,7 +160,7 @@ class H5pController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
         $editor = $h5p::$h5peditor;
 
@@ -278,7 +277,7 @@ class H5pController extends Controller
                 ->with('fail', trans('laravel-h5p.content.can_not_updated'));
         }*/
 
-        $return_id = LaravelH5p::controllerUpdate($request, $this, $id);
+        $return_id = OctoberH5p::controllerUpdate($request, $this, $id);
 
         if ($return_id) {
             return redirect()
@@ -293,7 +292,7 @@ class H5pController extends Controller
 
     public function show(Request $request, $id)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
         $settings = $h5p::get_editor();
         $content = $h5p->get_content($id);
@@ -316,7 +315,7 @@ class H5pController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-            $content = H5pContent::findOrFail($id);
+            $content = Content::findOrFail($id);
             $content->delete();
         } catch (Exception $ex) {
             return trans('laravel-h5p.content.can_not_delete');
@@ -336,7 +335,7 @@ class H5pController extends Controller
 
     public static function handle_upload($content = null, $only_upgrade = null, $disable_h5p_security = false)
     {
-        $h5p = App::make('LaravelH5p');
+        $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
         $validator = $h5p::$validator;
         $interface = $h5p::$interface;

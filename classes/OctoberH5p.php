@@ -3,11 +3,6 @@
 use DB;
 use Kloos\H5p\Http\H5pController;
 use Illuminate\Support\Facades\App;
-use Djoudi\LaravelH5p\Events\H5pEvent;
-use Djoudi\LaravelH5p\Storages\EditorStorage;
-use Djoudi\LaravelH5p\Storages\LaravelH5pStorage;
-use Djoudi\LaravelH5p\Repositories\LaravelH5pRepository;
-use Djoudi\LaravelH5p\Repositories\EditorAjaxRepository;
 
 use BackendAuth as Auth;
 
@@ -18,7 +13,7 @@ class OctoberH5p
      *
      * @since 1.0.0
      *
-     * @var \LaravelH5pFramwork
+     * @var \OctoberH5pFramework
      */
     public static $core = null;
     public static $h5peditor = null;
@@ -67,8 +62,11 @@ class OctoberH5p
 
     public static function get_url($path = '')
     {
-        return url('/vendor'.$path);
-        //return url('/storage'.$path);
+        if (str_contains($path, 'h5p-core') || str_contains($path, 'h5p-editor')) {
+            return url('/vendor'.$path);
+        } else {
+            return url('/storage'.$path);
+        }
     }
 
     public static function get_h5p_storage($path = '', $absolute = false)

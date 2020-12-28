@@ -1,5 +1,6 @@
 <?php namespace Kloos\H5p\Models;
 
+use App;
 use Model;
 use BackendAuth;
 use Backend\Models\User;
@@ -39,7 +40,11 @@ class Content extends Model
     /**
      * @var array Attributes to be cast to JSON
      */
-    protected $jsonable = [];
+    protected $jsonable = [
+        'parameters',
+        'filtered',
+        'metadata',
+    ];
 
     /**
      * @var array Attributes to be appended to the API representation of the model (ex. toArray())
@@ -89,10 +94,20 @@ class Content extends Model
 
     public function beforeSave()
     {
-        $parameters = json_decode(input('parameters', true));
+        $h5p = App::make('OctoberH5p');
+        $core = $h5p::$core;
 
-        $this->library_id = 
-        $this->title = $parameters->metadata->title;
+        $parameters = json_decode(input('parameters'), true);
+
+        $library = $core->libraryFromString(post('library'));
+        $this->library_id = $core->h5pF->getLibraryId($library['machineName'], $library['majorVersion'], $library['minorVersion']);
+        $this->title = $parameters['metadata']['title'];
+        $this->parameters = $parameters['params'];
         $this->user_id = BackendAuth::getUser()->id;
+        $this->filtered = '';
+        $this->slug = str_slug($this->title);
+        $this->embed_type = 'div';
+
+        $this->metadata = $parameters['metadata'];
     }
 }

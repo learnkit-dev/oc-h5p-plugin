@@ -5,28 +5,13 @@ use Backend;
 use BackendAuth;
 use System\Classes\PluginBase;
 use Illuminate\Foundation\AliasLoader;
-use Djoudi\LaravelH5p\Helpers\H5pHelper;
-use Djoudi\LaravelH5p\Commands\ResetCommand;
-use Djoudi\LaravelH5p\Commands\MigrationCommand;
+use Kloos\H5p\Classes\H5pHelper;
 
 /**
  * H5p Plugin Information File
  */
 class Plugin extends PluginBase
 {
-    protected $defer = false;
-
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
-    protected $listen = [
-        'Djoudi\LaravelH5p\Events\H5pEvent' => [
-            'Djoudi\LaravelH5p\Listeners\H5pNotification',
-        ],
-    ];
-
     /**
      * Returns information about this plugin.
      *
@@ -67,19 +52,6 @@ class Plugin extends PluginBase
             return new H5pHelper();
         });
 
-        $this->app->singleton('command.laravel-h5p.migration', function ($app) {
-            return new MigrationCommand();
-        });
-
-        $this->app->singleton('command.laravel-h5p.reset', function ($app) {
-            return new ResetCommand();
-        });
-
-        $this->commands([
-            'command.laravel-h5p.migration',
-            'command.laravel-h5p.reset',
-        ]);
-
         $this->app->bind('Illuminate\Contracts\Auth\Factory', function () {
             return BackendAuth::instance();
         });
@@ -92,45 +64,6 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        /*
-
-        // language
-        $this->publishes([
-            __DIR__.'/../../lang/en/laravel-h5p.php' => resource_path('lang/en/laravel-h5p.php'),
-        ], 'language');
-        $this->publishes([
-            __DIR__.'/../../lang/fr/laravel-h5p.php' => resource_path('lang/fr/laravel-h5p.php'),
-        ], 'language');
-        $this->publishes([
-            __DIR__.'/../../lang/ar/laravel-h5p.php' => resource_path('lang/ar/laravel-h5p.php'),
-        ], 'language');
-
-        */
-
-        // views
-        $this->publishes([
-            __DIR__.'/../../views/h5p' => resource_path('views/h5p'),
-        ], 'resources');
-
-        // migrations
-        $this->publishes([
-            __DIR__.'/../../migrations/' => database_path('migrations'),
-        ], 'migrations');
-
-        // h5p
-        $this->publishes([
-            app_path('/../vendor/kloos-dev/laravel-h5p/assets') => public_path('vendor/laravel-h5p'),
-            app_path('/../vendor/h5p/h5p-core/fonts')           => public_path('vendor/h5p/h5p-core/fonts'),
-            app_path('/../vendor/h5p/h5p-core/images')          => public_path('vendor/h5p/h5p-core/images'),
-            app_path('/../vendor/h5p/h5p-core/js')              => public_path('vendor/h5p/h5p-core/js'),
-            app_path('/../vendor/h5p/h5p-core/styles')          => public_path('vendor/h5p/h5p-core/styles'),
-            app_path('/../vendor/h5p/h5p-editor/ckeditor')      => public_path('vendor/h5p/h5p-editor/ckeditor'),
-            app_path('/../vendor/h5p/h5p-editor/images')        => public_path('vendor/h5p/h5p-editor/images'),
-            app_path('/../vendor/h5p/h5p-editor/language')      => public_path('vendor/h5p/h5p-editor/language'),
-            app_path('/../vendor/h5p/h5p-editor/libs')          => public_path('vendor/h5p/h5p-editor/libs'),
-            app_path('/../vendor/h5p/h5p-editor/scripts')       => public_path('vendor/h5p/h5p-editor/scripts'),
-            app_path('/../vendor/h5p/h5p-editor/styles')        => public_path('vendor/h5p/h5p-editor/styles'),
-        ], 'public');
     }
 
     /**
@@ -140,10 +73,8 @@ class Plugin extends PluginBase
      */
     public function registerComponents()
     {
-        return []; // Remove this line to activate
-
         return [
-            'Kloos\H5p\Components\MyComponent' => 'myComponent',
+            'Kloos\H5p\Components\H5pEmbed' => 'h5p',
         ];
     }
 
@@ -154,12 +85,10 @@ class Plugin extends PluginBase
      */
     public function registerPermissions()
     {
-        return []; // Remove this line to activate
-
         return [
-            'kloos.h5p.some_permission' => [
-                'tab' => 'H5p',
-                'label' => 'Some permission'
+            'kloos.h5p.manage_content' => [
+                'tab' => 'H5P',
+                'label' => 'Manage H5P content'
             ],
         ];
     }

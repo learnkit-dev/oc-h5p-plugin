@@ -1,18 +1,8 @@
-/* 
- *
- * @Project        
- * @Copyright      Djoudi
- * @Created        2018-02-20
- * @Filename       laravel-h5p.js
- * @Description    
- *
- */
-
 (function ($) {
-   
+
     $(document).ready(function () {
 
-   
+
         $(document).on("click", ".laravel-h5p-restricted", function (e) {
 
             var $this = $(this);
@@ -47,5 +37,5 @@
         });
 
     });
-    
+
 })(H5P.jQuery);

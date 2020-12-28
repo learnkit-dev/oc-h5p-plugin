@@ -1,5 +1,6 @@
 <?php namespace Kloos\H5p\Models;
 
+use App;
 use Model;
 
 /**
@@ -22,7 +23,25 @@ class Library extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'title',
+        'major_version',
+        'minor_version',
+        'patch_version',
+        'runnable',
+        'restricted',
+        'fullscreen',
+        'embed_types',
+        'preloaded_js',
+        'preloaded_css',
+        'drop_library_css',
+        'semantics',
+        'tutorial_url',
+        'has_icon',
+        'created_at',
+        'updated_at',
+    ];
 
     /**
      * @var array Validation rules for attributes
@@ -71,4 +90,21 @@ class Library extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
+    public function numContent()
+    {
+        $h5p = App::make('OctoberH5p');
+        $interface = $h5p::$interface;
+
+        return intval($interface->getNumContent($this->id));
+    }
+
+    public function getCountContentDependencies()
+    {
+        $h5p = App::make('OctoberH5p');
+        $interface = $h5p::$interface;
+        $usage = $interface->getLibraryUsage($this->id, $interface->getNumNotFiltered() ? true : false);
+
+        return intval($usage['libraries']);
+    }
 }

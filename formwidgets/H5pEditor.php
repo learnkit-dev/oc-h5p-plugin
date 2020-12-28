@@ -28,8 +28,8 @@ class H5pEditor extends FormWidgetBase
     {
         $parameters = [];
 
-        $parameters['params'] = json_decode($this->data->parameters);
-        $parameters['metadata'] = json_decode($this->data->metadata);
+        $parameters['params'] = $this->data->parameters;
+        $parameters['metadata'] = $this->data->metadata;
         $parameters = \json_encode($parameters);
 
         if ($this->data->library) {

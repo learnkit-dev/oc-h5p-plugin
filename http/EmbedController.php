@@ -1,9 +1,9 @@
 <?php namespace Kloos\H5p\Http;
 
 use BackendAuth;
-use Illuminate\Routing\Controller;
-use Djoudi\LaravelH5p\Events\H5pEvent;
 use Illuminate\Http\Request;
+use Kloos\H5p\Classes\H5pEvent;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 
 class EmbedController extends Controller

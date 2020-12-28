@@ -5,9 +5,8 @@ use Illuminate\Support\Facades\App;
 Route::group(['middleware' => ['web']], function () {
     if (config('laravel-h5p.use_router') == 'EDITOR' || config('laravel-h5p.use_router') == 'ALL') {
         Route::resource('h5p', "Kloos\H5p\Http\H5pController");
-        Route::group(['middleware' => ['auth']], function () {
-            //            Route::get('h5p/export', 'Djoudi\LaravelH5p\Http\H5pController@export')->name("h5p.export");
 
+        Route::group(['middleware' => ['auth']], function () {
             Route::get('library', "Kloos\H5p\Http\LibraryController@index")->name('h5p.library.index');
             Route::get('library/show/{id}', "Kloos\H5p\Http\LibraryController@show")->name('h5p.library.show');
             Route::post('library/store', "Kloos\H5p\Http\LibraryController@store")->name('h5p.library.store');
@@ -31,11 +30,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('ajax/content-user-data', 'Kloos\H5p\Http\AjaxController@contentUserData')->name('h5p.ajax.content-user-data');
     }
 
-    // export
-    //    if (config('laravel-h5p.use_router') == 'EXPORT' || config('laravel-h5p.use_router') == 'ALL') {
     Route::get('h5p/embed/{id}', 'Kloos\H5p\Http\EmbedController');
     Route::get('h5p/export/{id}', 'Kloos\H5p\Http\DownloadController')->name('h5p.export');
-    //    }
 });
 
 Route::prefix('api')->group(function () {
@@ -68,12 +64,12 @@ Route::prefix('api')->group(function () {
         });
 
 
-        Route::get('library', "Djoudi\LaravelH5p\Http\LibraryController@index")->name('h5p.library.index');
-        Route::get('library/show/{id}', "Djoudi\LaravelH5p\Http\LibraryController@show")->name('h5p.library.show');
-        Route::post('library/store', "Djoudi\LaravelH5p\Http\LibraryController@store")->name('h5p.library.store');
-        Route::delete('library/destroy', "Djoudi\LaravelH5p\Http\LibraryController@destroy")->name('h5p.library.destroy');
-        Route::get('library/restrict', "Djoudi\LaravelH5p\Http\LibraryController@restrict")->name('h5p.library.restrict');
-        Route::post('library/clear', "Djoudi\LaravelH5p\Http\LibraryController@clear")->name('h5p.library.clear');
+        Route::get('library', "Kloos\H5p\Http\LibraryController@index")->name('h5p.library.index');
+        Route::get('library/show/{id}', "Kloos\H5p\Http\LibraryController@show")->name('h5p.library.show');
+        Route::post('library/store', "Kloos\H5p\Http\LibraryController@store")->name('h5p.library.store');
+        Route::delete('library/destroy', "Kloos\H5p\Http\LibraryController@destroy")->name('h5p.library.destroy');
+        Route::get('library/restrict', "Kloos\H5p\Http\LibraryController@restrict")->name('h5p.library.restrict');
+        Route::post('library/clear', "Kloos\H5p\Http\LibraryController@clear")->name('h5p.library.clear');
 
     });
 });
