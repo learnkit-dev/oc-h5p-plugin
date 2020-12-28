@@ -3,6 +3,14 @@
 # ===================================
 
 columns:
-    id:
-        label: ID
+    title:
+        label: Title
         searchable: true
+        sortable: true
+    name:
+        label: Name
+        searchable: true
+        sortable: true
+    version:
+        label: Version
+        select: concat(major_version, '.', minor_version, '.', patch_version)

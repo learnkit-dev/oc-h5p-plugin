@@ -1,5 +1,6 @@
 <?php namespace Kloos\H5p\Components;
 
+use Kloos\H5p\Models\Content;
 use Cms\Classes\ComponentBase;
 
 class H5pEmbed extends ComponentBase
@@ -14,6 +15,19 @@ class H5pEmbed extends ComponentBase
 
     public function defineProperties()
     {
-        return [];
+        return [
+            'contentId' => [
+                'property' => 'contentId',
+                'title' => 'Content',
+                'type' => 'dropdown',
+            ],
+        ];
+    }
+
+    public function getContentIdOptions()
+    {
+        return Content::all()
+            ->pluck('title', 'id')
+            ->toArray();
     }
 }

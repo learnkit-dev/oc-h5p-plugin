@@ -11,6 +11,14 @@ fields:
         context:
             - update
             - preview
+    slug:
+        label: Slug
+        span: right
+        type: text
+        disabled: true
+        context:
+            - update
+            - preview
     content:
         label: Content
         span: full

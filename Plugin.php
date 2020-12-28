@@ -118,6 +118,11 @@ class Plugin extends PluginBase
                         'url' => Backend::url('/kloos/h5p/contents'),
                         'icon' => 'icon-list',
                     ],
+                    'libraries' => [
+                        'label' => 'Libraries',
+                        'url' => Backend::url('/kloos/h5p/libraries'),
+                        'icon' => 'icon-list',
+                    ],
                 ],
             ],
         ];

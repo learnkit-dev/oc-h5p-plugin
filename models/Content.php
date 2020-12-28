@@ -105,7 +105,7 @@ class Content extends Model
         $this->parameters = $parameters['params'];
         $this->user_id = BackendAuth::getUser()->id;
         $this->filtered = '';
-        $this->slug = str_slug($this->title);
+        $this->slug = str_slug($this->title) . '-' . uniqid();
         $this->embed_type = 'div';
 
         $this->metadata = $parameters['metadata'];

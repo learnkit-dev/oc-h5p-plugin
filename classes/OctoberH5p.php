@@ -198,17 +198,17 @@ class OctoberH5p
     {
         $settings = [
             'baseUrl'            => config('laravel-h5p.domain'),
-            'url'                => config('laravel-h5p.domain').'/api/h5p_protect?'.(Auth::check() ? 'token=blablabla&' : '').'data=',//self::get_h5p_storage(), // for uploaded
+            'url'                => self::get_h5p_storage(),//self::get_h5p_storage(), // for uploaded
             'postUserStatistics' => (config('laravel-h5p.h5p_track_user', true) === '1') && Auth::getUser(),
             'ajax'               => [
                 'setFinished'     => url('api/ajax/finish'),
                 //'contentUserData' => route('h5p.ajax.content-user-data'),
-                'contentUserData' => url('api/ajax/content-user-data').'?content_id=:contentId&data_type=:dataType&sub_content_id=:subContentId&token=blablabla',
+                'contentUserData' => url('api/ajax/content-user-data').'?content_id=:contentId&data_type=:dataType&sub_content_id=:subContentId&token=october',
             ],
             'saveFreq' => config('laravel-h5p.h5p_save_content_state', false) ? config('laravel-h5p.h5p_save_content_frequency', 30) : false,
             'siteUrl'  => config('laravel-h5p.domain'),
             'l10n'     => [
-                'H5P' => trans('laravel-h5p.h5p'),
+                'H5P' => trans('kloos.h5p::h5p.h5p'),
             ],
             'hubIsEnabled' => config('laravel-h5p.h5p_hub_is_enabled'),
         ];

@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Library
+
+# Model Form Field configuration
+form: $/kloos/h5p/models/library/fields.yaml
+
+# Model Class name
+modelClass: Kloos\H5p\Models\Library
+
+# Default redirect location
+defaultRedirect: kloos/h5p/libraries
+
+# Create page
+create:
+    title: Create Library
+    redirect: kloos/h5p/libraries/update/:id
+    redirectClose: kloos/h5p/libraries
+
+# Update page
+update:
+    title: Edit Library
+    redirect: kloos/h5p/libraries
+    redirectClose: kloos/h5p/libraries
+
+# Preview page
+preview:
+    title: Preview Library

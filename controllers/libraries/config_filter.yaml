@@ -1,0 +1,6 @@
+scopes:
+    runnable:
+        label: Is runnable
+        type: checkbox
+        default: 1
+        conditions: runnable <> 0

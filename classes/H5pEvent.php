@@ -29,7 +29,7 @@ class H5pEvent extends \H5PEventBase
 
         // Get data in array format without NULL values
         $data = $this->getDataArray();
-        $data['user_id'] = Auth::getUser();
+        $data['user_id'] = Auth::getUser()->id;
 
         // Insert into DB
         return EventLog::create($data);
