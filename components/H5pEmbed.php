@@ -31,6 +31,15 @@ class H5pEmbed extends ComponentBase
         ];
     }
 
+    public function forContentId($id)
+    {
+        $this->setProperty('contentId', $id);
+
+        $this->onRun();
+
+        return $this->renderPartial('@default');
+    }
+
     public function onRun()
     {
         $h5p = App::make('OctoberH5p');
