@@ -35,7 +35,7 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::prefix('api')->group(function () {
-    Route::group(['middleware' => ['api']], function () {
+    Route::group(['middleware' => ['web']], function () {
 
         Route::get('h5p/dom/{id?}', '\Kloos\H5p\Http\AjaxController@dom')->name('h5p.dom');
 
