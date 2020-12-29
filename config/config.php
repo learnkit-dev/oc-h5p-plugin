@@ -16,8 +16,8 @@
             // The configuration file for the package itself. Start this out by copying the default one that comes with the package and then modifying what you need.
             'config' => [
                 'H5P_DEV'         => false,
-                'language'        => 'en',
-                'domain'          => env('APP_URL', 'http://localhost'),
+                'language'        => config('app.locale'),
+                'domain'          => config('app.url'),
                 'h5p_public_path' => '/vendor',
                 'slug'            => 'laravel-h5p',
                 'views'           => 'h5p', // h5p view path
