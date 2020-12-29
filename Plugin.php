@@ -38,6 +38,15 @@ class Plugin extends PluginBase
      */
     public function register()
     {
+    }
+
+    /**
+     * Boot method, called right before the request route.
+     *
+     * @return array
+     */
+    public function boot()
+    {
         $this->bootPackages();
 
         $this->app->singleton('LaravelH5p', function ($app) {
@@ -59,15 +68,6 @@ class Plugin extends PluginBase
         $this->app->bind('Illuminate\Contracts\Auth\Factory', function () {
             return BackendAuth::instance();
         });
-    }
-
-    /**
-     * Boot method, called right before the request route.
-     *
-     * @return array
-     */
-    public function boot()
-    {
     }
 
     /**
@@ -108,7 +108,7 @@ class Plugin extends PluginBase
             'h5p' => [
                 'label'       => 'H5P',
                 'url'         => Backend::url('kloos/h5p/dashboard'),
-                'iconSvg'     => '/plugins/kloos/h5p/h5p.svg',
+                'iconSvg'     => '/plugins/kloos/h5p/assets/h5p.svg',
                 'permissions' => ['kloos.h5p.*'],
                 'order'       => 500,
                 'sideMenu' => [

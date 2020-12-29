@@ -88,7 +88,11 @@ class Library extends Model
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
-    public $attachOne = [];
+
+    public $attachOne = [
+        'temp_file' => 'System\Models\File',
+    ];
+
     public $attachMany = [];
 
     public function numContent()

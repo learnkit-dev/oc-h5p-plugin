@@ -16,3 +16,5 @@
     - 2017_05_10_015415_create_h5p_tmpfiles_table.php
 1.0.3:
     - First tag!
+1.0.4:
+    - Added deps and fixed some issues on market place version

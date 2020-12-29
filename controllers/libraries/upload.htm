@@ -1,17 +1,18 @@
-<form data-request="onHandleFileUpload" data-request-files>
+<?= Form::open(['class' => 'layout']) ?>
 
-    <div class="form-group laravel-h5p-upload-container">
-        <label for="inputUpload" class="control-label col-md-3">Upload content</label>
-        <div class="col-md-9">
-            <input type="file" name="h5p_file" id="h5p-file" class="laravel-h5p-upload form-control"/>
-            <small class="h5p-disable-file-check helper-block">
-                <label class="">
-                    <input type="checkbox" name="h5p_disable_file_check" id="h5p-disable-file-check"/> Disable extension check
-                </label>
-            </small>
+    <div class="layout-row">
+        <?= $form->render() ?>
+    </div>
 
-            <input type="submit" value="Uploaden" />
+    <div class="form-buttons">
+        <div class="loading-indicator-container">
+            <button type="submit" data-request="onSave" data-request-files data-request-data="redirect:0" data-hotkey="ctrl+s, cmd+s" data-load-indicator="Saving Content..." class="btn btn-primary" data-disposable="">
+                <u>S</u>ave
+            </button>
+            <span class="btn-text">
+                or <a href="https://h5p.test/backend/kloos/h5p/contents">Cancel</a>
+            </span>
         </div>
     </div>
 
-</form>
+<?= Form::close() ?>

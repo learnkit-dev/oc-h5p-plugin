@@ -101,16 +101,21 @@ class Content extends Model
 
         $parameters = json_decode(input('parameters'), true);
 
-        $library = $core->libraryFromString(post('library'));
-        $this->library_id = $core->h5pF->getLibraryId($library['machineName'], $library['majorVersion'], $library['minorVersion']);
-        $this->title = $parameters['metadata']['title'];
-        $this->parameters = $parameters['params'];
+        if (post('library')) {
+            $library = $core->libraryFromString(post('library'));
+            $this->library_id = $core->h5pF->getLibraryId($library['machineName'], $library['majorVersion'], $library['minorVersion']);
+        }
+
+        if (input('parameters')) {
+            $this->title = $parameters['metadata']['title'];
+            $this->parameters = $parameters['params'];
+            $this->metadata = $parameters['metadata'];
+            $this->slug = str_slug($this->title) . '-' . uniqid();
+        }
+
         $this->user_id = BackendAuth::getUser()->id;
         $this->filtered = '';
-        $this->slug = str_slug($this->title) . '-' . uniqid();
         $this->embed_type = 'div';
-
-        $this->metadata = $parameters['metadata'];
     }
 
     public function afterSave()
@@ -121,6 +126,11 @@ class Content extends Model
 
         $event_type = 'update';
         $content = $h5p::get_content($this->id);
+
+        if (!$content['library']) {
+            return;
+        }
+
         $content['embed_type'] = 'div';
         $content['user_id'] = BackendAuth::getUser()->id;
         $content['disable'] = input('disable') ? input('disable') : false;
@@ -130,8 +140,9 @@ class Content extends Model
         $oldParams = json_decode($content['params']);
 
         $content['library'] = $core->libraryFromString(input('library'));
+
         if (!$content['library']) {
-            throw new \H5PException('Invalid library.');
+            return;
         }
 
         // Check if library exists.

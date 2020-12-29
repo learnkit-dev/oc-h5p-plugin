@@ -1,0 +1,12 @@
+fields:
+    temp_file:
+        label: H5P file
+        span: left
+        comment: Upload your H5P file here
+        type: fileupload
+        fileTypes: h5p
+        mode: file
+    h5p_disable_file_check:
+        label: Disable file check
+        type: checkbox
+        span: left

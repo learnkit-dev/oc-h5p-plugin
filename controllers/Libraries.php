@@ -1,9 +1,13 @@
 <?php namespace Kloos\H5p\Controllers;
 
 use App;
+use File;
+use Flash;
+use Backend;
 use Exception;
 use BackendMenu;
 use BackendAuth as Auth;
+use Kloos\H5p\Models\Library;
 use Backend\Classes\Controller;
 
 /**
@@ -29,6 +33,8 @@ class Libraries extends Controller
      */
     public $listConfig = 'config_list.yaml';
 
+    public $formWidget;
+
     public function __construct()
     {
         parent::__construct();
@@ -38,9 +44,20 @@ class Libraries extends Controller
 
     public function upload()
     {
+        $config = $this->makeConfig('$/kloos/h5p/models/library/upload.yaml');
+
+        $config->model = new Library;
+
+        $widget = $this->makeWidget('Backend\Widgets\Form', $config);
+        $widget->alias = 'uploadForm';
+        $widget->bindToController();
+
+        $this->formWidget = $widget;
+
+        $this->vars['form'] = $widget;
     }
 
-    public function onHandleFileUpload()
+    public function upload_onSave()
     {
         $h5p = App::make('OctoberH5p');
         $core = $h5p::$core;
@@ -48,7 +65,7 @@ class Libraries extends Controller
         $content = [
             'disable'    => \H5PCore::DISABLE_NONE,
             'user_id'    => Auth::getUser()->id,
-            'title'      => 'Test 1234',
+            'title'      => 'Library content',
             'embed_type' => 'div',
             'filtered'   => '',
             'slug'       => config('laravel-h5p.slug'),
@@ -64,8 +81,12 @@ class Libraries extends Controller
             // Handle file upload
             $return_id = $this->handleUpload($content);
 
-            return $return_id;
+            Flash::success('H5P library imported');
+
+            return redirect(Backend::url('kloos/h5p/libraries'));
         } catch (Exception $ex) {
+            Flash::error($ex->getMessage());
+
             return 0;
         }
     }
@@ -88,6 +109,11 @@ class Libraries extends Controller
         $interface = $h5p::$interface;
         $storage = $h5p::$storage;
 
+        // Get the uploaded file
+        $model = new Library();
+        $key = input('_session_key');
+        $file = $model->temp_file()->withDeferred($key)->first();
+
         if ($disable_h5p_security) {
             // Make it possible to disable file extension check
             $core->disableFileCheck = (filter_input(INPUT_POST, 'h5p_disable_file_check',
@@ -95,7 +121,9 @@ class Libraries extends Controller
         }
 
         // Move so core can validate the file extension.
-        rename($_FILES['h5p_file']['tmp_name'], $interface->getUploadedH5pPath());
+        //rename($_FILES['temp_file']['tmp_name'], $interface->getUploadedH5pPath());
+
+        File::copy($file->getLocalPath(), $interface->getUploadedH5pPath());
 
         $skipContent = ($content === null);
 
@@ -117,7 +145,7 @@ class Libraries extends Controller
                 $interface->deleteLibraryUsage($content['id']);
             }
 
-            $storage->savePackage($content, null, $skipContent);
+            $storage->savePackage($content, null, true);
 
             // Clear cached value for dirsize.
             return $storage->contentId;

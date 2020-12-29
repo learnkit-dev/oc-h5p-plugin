@@ -63,20 +63,16 @@ class OctoberH5p
     public static function get_url($path = '')
     {
         if (str_contains($path, 'h5p-core') || str_contains($path, 'h5p-editor')) {
-            if (file_exists(plugins_path('kloos/h5p/vendor/autoload.php'))) {
-                return url('/plugins/kloos/h5p/vendor' . $path);
-            }
-
-            return url('/vendor'.$path);
+            return url('/plugins/kloos/h5p/assets' . $path);
         } else {
-            return url('/storage'.$path);
+            return url('/storage/app/uploads/public'.$path);
         }
     }
 
     public static function get_h5p_storage($path = '', $absolute = false)
     {
         if ($absolute) {
-            return new LaravelH5pStorage(storage_path('h5p'.$path));
+            return new LaravelH5pStorage(storage_path('app/uploads/public/h5p'.$path));
             //return new LaravelH5pStorage(storage_path('app/public/h5p'.$path));
         } else {
             return self::get_url('/h5p'.$path);
@@ -108,7 +104,7 @@ class OctoberH5p
         $return = self::get_url('/h5p'.$path);
 
         if ($absolute) {
-            return storage_path('h5p/'.realpath($return));
+            return storage_path('app/uploads/public/h5p/'.realpath($return));
             //            return storage('/h5p/libraries' . $path);
         } else {
             return $return;
