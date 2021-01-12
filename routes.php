@@ -87,7 +87,8 @@ Route::get('/h5pintegration-settings.js', function () {
     // view Get the file and settings to print from
     $settings = $h5p::get_editor();
 
-    return 'H5PIntegration = ' . json_encode($settings);
+    return response('H5PIntegration = ' . json_encode($settings))
+        ->header('Content-Type', 'application/javascript');
 });
 
 Route::get('/kloos/h5p/embed/{id}', function ($contentId) {
