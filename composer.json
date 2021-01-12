@@ -1,5 +1,6 @@
 {
     "name": "kloos/oc-h5p-plugin",
+    "type": "october-plugin",
     "description": "H5P plugin for October CMS",
     "minimum-stability": "stable",
     "license": "proprietary",
