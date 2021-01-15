@@ -1,16 +1,16 @@
-<?php namespace Kloos\H5p\Classes;
+<?php namespace LearnKit\H5p\Classes;
 
 use DB;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use System\Models\Parameter;
-use Kloos\H5p\Models\Result;
-use Kloos\H5p\Models\Content;
-use Kloos\H5p\Models\Library;
+use LearnKit\H5p\Models\Result;
+use LearnKit\H5p\Models\Content;
+use LearnKit\H5p\Models\Library;
 use Illuminate\Support\Facades\App;
-use Kloos\H5p\Models\ContentsLibrary;
-use Kloos\H5p\Models\LibrariesLibrary;
-use Kloos\H5p\Models\ContentsUserData;
+use LearnKit\H5p\Models\ContentsLibrary;
+use LearnKit\H5p\Models\LibrariesLibrary;
+use LearnKit\H5p\Models\ContentsUserData;
 
 class LaravelH5pRepository implements \H5PFrameworkInterface
 {

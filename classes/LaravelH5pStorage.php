@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\Classes;
+<?php namespace LearnKit\H5p\Classes;
 
 class LaravelH5pStorage implements \H5PFileStorage
 {

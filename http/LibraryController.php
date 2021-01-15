@@ -1,10 +1,10 @@
-<?php namespace Kloos\H5p\Http;
+<?php namespace LearnKit\H5p\Http;
 
 use DB;
 use H5PCore;
 use Illuminate\Http\Request;
-use Kloos\H5p\Models\Library;
-use Kloos\H5p\Models\Content;
+use LearnKit\H5p\Models\Library;
+use LearnKit\H5p\Models\Content;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 

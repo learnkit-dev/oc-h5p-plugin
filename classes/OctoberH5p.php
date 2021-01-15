@@ -1,7 +1,7 @@
-<?php namespace Kloos\H5p\Classes;
+<?php namespace LearnKit\H5p\Classes;
 
 use DB;
-use Kloos\H5p\Http\H5pController;
+use LearnKit\H5p\Http\H5pController;
 use Illuminate\Support\Facades\App;
 
 use BackendAuth as Auth;
@@ -63,7 +63,7 @@ class OctoberH5p
     public static function get_url($path = '')
     {
         if (str_contains($path, 'h5p-core') || str_contains($path, 'h5p-editor')) {
-            return url('/plugins/kloos/h5p/assets' . $path);
+            return url('/plugins/learnkit/h5p/assets' . $path);
         } else {
             return url('/storage/app/uploads/public'.$path);
         }
@@ -208,7 +208,7 @@ class OctoberH5p
             'saveFreq' => config('laravel-h5p.h5p_save_content_state', false) ? config('laravel-h5p.h5p_save_content_frequency', 30) : false,
             'siteUrl'  => config('laravel-h5p.domain'),
             'l10n'     => [
-                'H5P' => trans('kloos.h5p::h5p.h5p'),
+                'H5P' => trans('learnkit.h5p::h5p.h5p'),
             ],
             'hubIsEnabled' => config('laravel-h5p.h5p_hub_is_enabled'),
         ];
@@ -235,7 +235,7 @@ class OctoberH5p
 
         //$settings['core']['scripts'][] = url('/h5pintegration-settings.js');
 
-        $settings['core']['styles'][] = url('/plugins/kloos/h5p/assets/css/laravel-h5p.css');
+        $settings['core']['styles'][] = url('/plugins/learnkit/h5p/assets/css/laravel-h5p.css');
 
         foreach (\H5PCore::$styles as $style) {
             $settings['core']['styles'][] = self::get_h5pcore_url('/'.$style);
@@ -286,7 +286,7 @@ class OctoberH5p
         $settings['editor']['assets']['css'] = $settings['core']['styles'];
         $settings['editor']['assets']['js'] = $settings['core']['scripts'];
 
-        $settings['editor']['assets']['js'][] = url('/plugins/kloos/h5p/assets/js/laravel-h5p-editor.js');
+        $settings['editor']['assets']['js'][] = url('/plugins/learnkit/h5p/assets/js/laravel-h5p-editor.js');
 
         // add editor styles
         foreach (\H5peditor::$styles as $style) {

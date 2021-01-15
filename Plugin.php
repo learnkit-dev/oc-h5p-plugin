@@ -1,11 +1,11 @@
-<?php namespace Kloos\H5p;
+<?php namespace LearnKit\H5p;
 
 use Config;
 use Backend;
 use BackendAuth;
 use System\Classes\PluginBase;
 use Illuminate\Foundation\AliasLoader;
-use Kloos\H5p\Classes\H5pHelper;
+use LearnKit\H5p\Classes\H5pHelper;
 
 /**
  * H5p Plugin Information File
@@ -26,7 +26,7 @@ class Plugin extends PluginBase
         return [
             'name'        => 'H5p',
             'description' => 'No description provided yet...',
-            'author'      => 'Kloos',
+            'author'      => 'LearnKit',
             'icon'        => 'icon-leaf'
         ];
     }
@@ -50,13 +50,13 @@ class Plugin extends PluginBase
         $this->bootPackages();
 
         $this->app->singleton('LaravelH5p', function ($app) {
-            $LaravelH5p = new \Kloos\H5p\Classes\OctoberH5p($app);
+            $LaravelH5p = new \LearnKit\H5p\Classes\OctoberH5p($app);
 
             return $LaravelH5p;
         });
 
         $this->app->singleton('OctoberH5p', function ($app) {
-            $LaravelH5p = new \Kloos\H5p\Classes\OctoberH5p($app);
+            $LaravelH5p = new \LearnKit\H5p\Classes\OctoberH5p($app);
 
             return $LaravelH5p;
         });
@@ -78,7 +78,7 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'Kloos\H5p\Components\H5pEmbed' => 'h5p',
+            'LearnKit\H5p\Components\H5pEmbed' => 'h5p',
         ];
     }
 
@@ -90,7 +90,7 @@ class Plugin extends PluginBase
     public function registerPermissions()
     {
         return [
-            'kloos.h5p.manage_content' => [
+            'learnkit.h5p.manage_content' => [
                 'tab' => 'H5P',
                 'label' => 'Manage H5P content'
             ],
@@ -107,24 +107,24 @@ class Plugin extends PluginBase
         return [
             'h5p' => [
                 'label'       => 'H5P',
-                'url'         => Backend::url('kloos/h5p/dashboard'),
-                'iconSvg'     => '/plugins/kloos/h5p/assets/h5p.svg',
-                'permissions' => ['kloos.h5p.*'],
+                'url'         => Backend::url('learnkit/h5p/dashboard'),
+                'iconSvg'     => '/plugins/learnkit/h5p/assets/h5p.svg',
+                'permissions' => ['learnkit.h5p.*'],
                 'order'       => 500,
                 'sideMenu' => [
                     'dashboard' => [
                         'label' => 'Dashboard',
-                        'url' => Backend::url('/kloos/h5p/dashboard'),
+                        'url' => Backend::url('/learnkit/h5p/dashboard'),
                         'icon' => 'icon-dashboard',
                     ],
                     'contents' => [
                         'label' => 'Contents',
-                        'url' => Backend::url('/kloos/h5p/contents'),
+                        'url' => Backend::url('/learnkit/h5p/contents'),
                         'icon' => 'icon-list',
                     ],
                     'libraries' => [
                         'label' => 'Libraries',
-                        'url' => Backend::url('/kloos/h5p/libraries'),
+                        'url' => Backend::url('/learnkit/h5p/libraries'),
                         'icon' => 'icon-list',
                     ],
                 ],
@@ -135,7 +135,7 @@ class Plugin extends PluginBase
     public function registerFormWidgets()
     {
         return [
-            'Kloos\H5p\FormWidgets\H5pEditor' => 'h5peditor',
+            'LearnKit\H5p\FormWidgets\H5pEditor' => 'h5peditor',
         ];
     }
 

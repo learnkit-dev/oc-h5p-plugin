@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\Controllers;
+<?php namespace LearnKit\H5p\Controllers;
 
 use BackendMenu;
 use Backend\Classes\Controller;
@@ -12,6 +12,6 @@ class Dashboard extends Controller
 
     public function index()
     {
-        BackendMenu::setContext('Kloos.H5p', 'h5p', 'dashboard');
+        BackendMenu::setContext('LearnKit.H5p', 'h5p', 'dashboard');
     }
 }

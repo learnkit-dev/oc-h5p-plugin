@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\Controllers;
+<?php namespace LearnKit\H5p\Controllers;
 
 use BackendMenu;
 use Backend\Classes\Controller;
@@ -30,6 +30,6 @@ class Contents extends Controller
     {
         parent::__construct();
 
-        BackendMenu::setContext('Kloos.H5p', 'h5p', 'contents');
+        BackendMenu::setContext('LearnKit.H5p', 'h5p', 'contents');
     }
 }

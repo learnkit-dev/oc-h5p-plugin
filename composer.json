@@ -1,5 +1,5 @@
 {
-    "name": "kloos/oc-h5p-plugin",
+    "name": "learnkit/oc-h5p-plugin",
     "type": "october-plugin",
     "description": "H5P plugin for October CMS",
     "minimum-stability": "stable",
@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "h5p/h5p-core": "^1.24",
-        "h5p/h5p-editor": "^1.24",
+        "h5p/h5p-core": "dev-master",
+        "h5p/h5p-editor": "dev-master",
         "guzzlehttp/guzzle": "^6.2"
     }
 }

@@ -3,16 +3,16 @@
 # ===================================
 
 # Model List Column configuration
-list: $/kloos/h5p/models/content/columns.yaml
+list: $/learnkit/h5p/models/content/columns.yaml
 
 # Model Class name
-modelClass: Kloos\H5p\Models\Content
+modelClass: LearnKit\H5p\Models\Content
 
 # List Title
 title: Manage Contents
 
 # Link URL for each record
-recordUrl: kloos/h5p/contents/update/:id
+recordUrl: learnkit/h5p/contents/update/:id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records

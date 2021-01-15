@@ -1,11 +1,11 @@
-<?php namespace Kloos\H5p\Models;
+<?php namespace LearnKit\H5p\Models;
 
 use App;
 use Model;
 use BackendAuth;
 use Backend\Models\User;
-use Kloos\H5p\Classes\H5pEvent;
-use Kloos\H5p\Http\H5pController;
+use LearnKit\H5p\Classes\H5pEvent;
+use LearnKit\H5p\Http\H5pController;
 
 /**
  * Content Model

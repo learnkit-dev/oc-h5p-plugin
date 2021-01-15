@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\Updates;
+<?php namespace LearnKit\H5p\Updates;
 
 use October\Rain\Database\Updates\Migration;
 use Illuminate\Database\Schema\Blueprint;

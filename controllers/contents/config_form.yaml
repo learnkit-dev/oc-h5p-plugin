@@ -6,25 +6,25 @@
 name: Content
 
 # Model Form Field configuration
-form: $/kloos/h5p/models/content/fields.yaml
+form: $/learnkit/h5p/models/content/fields.yaml
 
 # Model Class name
-modelClass: Kloos\H5p\Models\Content
+modelClass: LearnKit\H5p\Models\Content
 
 # Default redirect location
-defaultRedirect: kloos/h5p/contents
+defaultRedirect: learnkit/h5p/contents
 
 # Create page
 create:
     title: Create Content
-    redirect: kloos/h5p/contents/update/:id
-    redirectClose: kloos/h5p/contents
+    redirect: learnkit/h5p/contents/update/:id
+    redirectClose: learnkit/h5p/contents
 
 # Update page
 update:
     title: Edit Content
-    redirect: kloos/h5p/contents
-    redirectClose: kloos/h5p/contents
+    redirect: learnkit/h5p/contents
+    redirectClose: learnkit/h5p/contents
 
 # Preview page
 preview:

@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\Http;
+<?php namespace LearnKit\H5p\Http;
 
 use DB;
 use App;
@@ -7,11 +7,11 @@ use H5PEditorEndpoints;
 use BackendAuth as Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Kloos\H5p\Models\Result;
-use Kloos\H5p\Classes\H5pEvent;
+use LearnKit\H5p\Models\Result;
+use LearnKit\H5p\Classes\H5pEvent;
 use Illuminate\Routing\Controller;
-use Kloos\H5p\Classes\ResultEvent;
-use Kloos\H5p\Models\ContentsUserData;
+use LearnKit\H5p\Classes\ResultEvent;
+use LearnKit\H5p\Models\ContentsUserData;
 
 class AjaxController extends Controller
 {

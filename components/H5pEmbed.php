@@ -1,10 +1,10 @@
-<?php namespace Kloos\H5p\Components;
+<?php namespace LearnKit\H5p\Components;
 
 use App;
 use Auth;
-use Kloos\H5p\Models\Content;
+use LearnKit\H5p\Models\Content;
 use Cms\Classes\ComponentBase;
-use Kloos\H5p\Classes\H5pEvent;
+use LearnKit\H5p\Classes\H5pEvent;
 
 class H5pEmbed extends ComponentBase
 {
@@ -42,6 +42,10 @@ class H5pEmbed extends ComponentBase
 
     public function onRun()
     {
+        if (!$this->property('contentId', null)) {
+            return;
+        }
+
         $h5p = App::make('OctoberH5p');
         $settings = $h5p::get_editor();
         $content = $h5p->get_content($this->property('contentId'));
@@ -61,7 +65,7 @@ class H5pEmbed extends ComponentBase
         $this->page['embed_settings'] = $settings;
         $this->page['embed_code'] = $embed_code;
 
-        /*return view('kloos.h5p::content.embed', [
+        /*return view('learnkit.h5p::content.embed', [
             'settings' => $settings,
             'user' => $user,
             'embed_code' => $embed_code

@@ -1,7 +1,7 @@
 <?php return [
     // This contains the Laravel Packages that you want this plugin to utilize listed under their package identifiers
     'packages' => [
-        'kloos-dev/laravel-h5p' => [
+        'learnkit-dev/laravel-h5p' => [
             // Service providers to be registered by your plugin
             'providers' => [
             ],
@@ -21,7 +21,7 @@
                 'h5p_public_path' => '/vendor',
                 'slug'            => 'laravel-h5p',
                 'views'           => 'h5p', // h5p view path
-                'layout'          => 'kloos.h5p::layouts.h5p', // layoute path
+                'layout'          => 'learnkit.h5p::layouts.h5p', // layoute path
                 'use_router'      => 'ALL', // ALL,EXPORT,EDITOR
 
                 'H5P_DISABLE_AGGREGATION' => false,

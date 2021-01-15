@@ -3,10 +3,10 @@
 # ===================================
 
 # Model List Column configuration
-list: $/kloos/h5p/models/library/columns.yaml
+list: $/learnkit/h5p/models/library/columns.yaml
 
 # Model Class name
-modelClass: Kloos\H5p\Models\Library
+modelClass: LearnKit\H5p\Models\Library
 
 # List Title
 title: Manage Libraries

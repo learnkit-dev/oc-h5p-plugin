@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\Updates;
+<?php namespace LearnKit\H5p\Updates;
 
 use Schema;
 use October\Rain\Database\Schema\Blueprint;

@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\Models;
+<?php namespace LearnKit\H5p\Models;
 
 use Model;
 

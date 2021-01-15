@@ -1,12 +1,12 @@
-<?php namespace Kloos\H5p\Http;
+<?php namespace LearnKit\H5p\Http;
 
 use Backend;
 use H5pCore;
 use BackendAuth as Auth;
 use Illuminate\Http\Request;
-use Kloos\H5p\Models\Content;
-use Kloos\H5p\Classes\H5pEvent;
-use Kloos\H5p\Classes\OctoberH5p;
+use LearnKit\H5p\Models\Content;
+use LearnKit\H5p\Classes\H5pEvent;
+use LearnKit\H5p\Classes\OctoberH5p;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 
@@ -32,7 +32,7 @@ class H5pController extends Controller
         $entrys = $where->paginate(10);
         $entrys->appends(['sf' => $request->query('sf'), 's' => $request->query('s')]);
 
-        return view('kloos.h5p::content.index', compact('entrys', 'request', 'search_fields'));
+        return view('learnkit.h5p::content.index', compact('entrys', 'request', 'search_fields'));
     }
 
     public function create(Request $request)
@@ -54,7 +54,7 @@ class H5pController extends Controller
 
         $user = Auth::user();
 
-        return redirect(Backend::url('kloos/h5p/test'));
+        return redirect(Backend::url('learnkit/h5p/test'));
     }
 
     public function store(Request $request)

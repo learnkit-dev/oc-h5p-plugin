@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\Controllers;
+<?php namespace LearnKit\H5p\Controllers;
 
 use App;
 use File;
@@ -7,7 +7,7 @@ use Backend;
 use Exception;
 use BackendMenu;
 use BackendAuth as Auth;
-use Kloos\H5p\Models\Library;
+use LearnKit\H5p\Models\Library;
 use Backend\Classes\Controller;
 
 /**
@@ -39,12 +39,12 @@ class Libraries extends Controller
     {
         parent::__construct();
 
-        BackendMenu::setContext('Kloos.H5p', 'h5p', 'libraries');
+        BackendMenu::setContext('LearnKit.H5p', 'h5p', 'libraries');
     }
 
     public function upload()
     {
-        $config = $this->makeConfig('$/kloos/h5p/models/library/upload.yaml');
+        $config = $this->makeConfig('$/learnkit/h5p/models/library/upload.yaml');
 
         $config->model = new Library;
 
@@ -83,7 +83,7 @@ class Libraries extends Controller
 
             Flash::success('H5P library imported');
 
-            return redirect(Backend::url('kloos/h5p/libraries'));
+            return redirect(Backend::url('learnkit/h5p/libraries'));
         } catch (Exception $ex) {
             Flash::error($ex->getMessage());
 

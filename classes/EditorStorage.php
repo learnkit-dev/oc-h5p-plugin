@@ -1,9 +1,9 @@
-<?php namespace Kloos\H5p\Classes;
+<?php namespace LearnKit\H5p\Classes;
 
 use DB;
 use App;
-use Kloos\H5p\Models\Library;
-use Kloos\H5p\Models\Tmpfile;
+use LearnKit\H5p\Models\Library;
+use LearnKit\H5p\Models\Tmpfile;
 
 class EditorStorage implements \H5peditorStorage
 {

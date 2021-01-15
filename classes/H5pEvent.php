@@ -1,7 +1,7 @@
-<?php namespace Kloos\H5p\Classes;
+<?php namespace LearnKit\H5p\Classes;
 
 use BackendAuth as Auth;
-use Kloos\H5p\Models\EventLog;
+use LearnKit\H5p\Models\EventLog;
 
 class H5pEvent extends \H5PEventBase
 {

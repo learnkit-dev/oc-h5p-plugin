@@ -1,4 +1,4 @@
-<?php namespace Kloos\H5p\FormWidgets;
+<?php namespace LearnKit\H5p\FormWidgets;
 
 use App;
 use Backend\Classes\FormField;
@@ -49,7 +49,7 @@ class H5pEditor extends FormWidgetBase
 
     public function prepareAssets()
     {
-        $this->addJs('js/event-helper.js');
+        $this->addJs('/plugins/learnkit/h5p/formwidgets/h5peditor/assets/js/event-helper.js');
 
         $h5p = App::make('OctoberH5p');
         $settings = $h5p::get_editor();
@@ -63,6 +63,6 @@ class H5pEditor extends FormWidgetBase
         }
 
         $this->addJs('/h5pintegration-settings.js');
-        $this->addJs('js/october-h5p.js');
+        $this->addJs('/plugins/learnkit/h5p/formwidgets/h5peditor/assets/js/october-h5p.js');
     }
 }

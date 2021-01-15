@@ -1,7 +1,7 @@
-<?php namespace Kloos\H5p\Http;
+<?php namespace LearnKit\H5p\Http;
 
 use Illuminate\Http\Request;
-use Kloos\H5p\Classes\H5pEvent;
+use LearnKit\H5p\Classes\H5pEvent;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 

@@ -1,8 +1,8 @@
-<?php namespace Kloos\H5p\Classes;
+<?php namespace LearnKit\H5p\Classes;
 
 use DB;
 use Auth;
-use Kloos\H5p\Models\LibrariesHubCache;
+use LearnKit\H5p\Models\LibrariesHubCache;
 
 class EditorAjaxRepository implements \H5PEditorAjaxInterface
 {
