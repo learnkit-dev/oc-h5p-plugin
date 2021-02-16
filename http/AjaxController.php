@@ -3,8 +3,8 @@
 use DB;
 use App;
 use Log;
+use Auth;
 use H5PEditorEndpoints;
-use BackendAuth as Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use LearnKit\H5p\Models\Result;

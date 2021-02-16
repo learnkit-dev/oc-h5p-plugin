@@ -1,6 +1,6 @@
 <?php namespace LearnKit\H5p\Classes;
 
-use BackendAuth as Auth;
+use Auth;
 use LearnKit\H5p\Models\EventLog;
 
 class H5pEvent extends \H5PEventBase

@@ -1,8 +1,8 @@
 <?php namespace LearnKit\H5p\Http;
 
+use Auth;
 use Backend;
 use H5pCore;
-use BackendAuth as Auth;
 use Illuminate\Http\Request;
 use LearnKit\H5p\Models\Content;
 use LearnKit\H5p\Classes\H5pEvent;
@@ -52,7 +52,7 @@ class H5pController extends Controller
         // create event dispatch
         event(new H5pEvent('content', 'new'));
 
-        $user = Auth::user();
+        $user = Auth::getUser();
 
         return redirect(Backend::url('learnkit/h5p/test'));
     }
@@ -185,7 +185,7 @@ class H5pController extends Controller
         // create event dispatch
         event(new H5pEvent('content', 'edit', $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'].'.'.$content['library']['minorVersion']));
 
-        $user = Auth::user();
+        $user = Auth::getUser();
 
 
         return view('h5p.content.edit', compact('settings', 'user', 'id', 'content', 'library', 'parameters', 'display_options'));

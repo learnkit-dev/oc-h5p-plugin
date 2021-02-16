@@ -1,12 +1,13 @@
 <?php namespace LearnKit\H5p\Controllers;
 
 use App;
+use Auth;
 use File;
 use Flash;
 use Backend;
 use Exception;
 use BackendMenu;
-use BackendAuth as Auth;
+use BackendAuth;
 use LearnKit\H5p\Models\Library;
 use Backend\Classes\Controller;
 
@@ -64,7 +65,7 @@ class Libraries extends Controller
 
         $content = [
             'disable'    => \H5PCore::DISABLE_NONE,
-            'user_id'    => Auth::getUser()->id,
+            'user_id'    => BackendAuth::getUser()->id,
             'title'      => 'Library content',
             'embed_type' => 'div',
             'filtered'   => '',

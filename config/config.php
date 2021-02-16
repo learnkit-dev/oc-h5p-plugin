@@ -17,12 +17,12 @@
             'config' => [
                 'H5P_DEV'         => false,
                 'language'        => config('app.locale'),
-                'domain'          => config('app.url'),
+                'domain'          => config('app.url', url('')),
                 'h5p_public_path' => '/vendor',
                 'slug'            => 'laravel-h5p',
-                'views'           => 'h5p', // h5p view path
-                'layout'          => 'learnkit.h5p::layouts.h5p', // layoute path
-                'use_router'      => 'ALL', // ALL,EXPORT,EDITOR
+                'views'           => 'h5p',
+                'layout'          => 'learnkit.h5p::layouts.h5p',
+                'use_router'      => 'ALL',
 
                 'H5P_DISABLE_AGGREGATION' => false,
 
@@ -43,7 +43,7 @@
                 'h5p_content_type_cache_updated_at' => 0,
                 'h5p_check_h5p_requirements'        => false,
                 'h5p_hub_is_enabled'                => false,
-                'h5p_version'                       => '1.23.0',
+                'h5p_version'                       => '1.24.0',
             ],
         ],
     ],

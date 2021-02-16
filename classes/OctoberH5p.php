@@ -4,7 +4,7 @@ use DB;
 use LearnKit\H5p\Http\H5pController;
 use Illuminate\Support\Facades\App;
 
-use BackendAuth as Auth;
+use Auth;
 
 class OctoberH5p
 {
@@ -213,9 +213,9 @@ class OctoberH5p
             'hubIsEnabled' => config('laravel-h5p.h5p_hub_is_enabled'),
         ];
 
-        if (Auth::check()) {
+        if (Auth::getUser()) {
             $settings['user'] = [
-                'name' => Auth::user()->first_name.' '.Auth::user()->name,
+                'name' => Auth::user()->name.' '.Auth::user()->surname,
                 'mail' => Auth::user()->email,
             ];
         }
@@ -356,7 +356,7 @@ class OctoberH5p
         ];
 
         // Get preloaded user data for the current user
-        if (config('laravel-h5p.h5p_save_content_state') && Auth::check()) {
+        if (config('laravel-h5p.h5p_save_content_state') && Auth::getUser()) {
             $results = DB::select('
                 SELECT
                 hcud.sub_content_id,
@@ -365,7 +365,7 @@ class OctoberH5p
                 FROM h5p_contents_user_data hcud
                 WHERE user_id = ?
                 AND content_id = ?
-                AND preload = 1', [Auth::user()->id, $content['id']]
+                AND preload = 1', [Auth::getUser()->id, $content['id']]
             );
 
             if ($results) {
@@ -493,7 +493,7 @@ class OctoberH5p
             $event_type = 'create';
             $content = [
                 'disable'    => \H5PCore::DISABLE_NONE,
-                'user_id'    => Auth::id(),
+                'user_id'    => Auth::getUser()->id,
                 'title'      => $request->get('title'),
                 'embed_type' => 'div',
                 'filtered'   => '',
@@ -571,7 +571,7 @@ class OctoberH5p
             $event_type = 'update';
             $content = $h5p::get_content($id);
             $content['embed_type'] = 'div';
-            $content['user_id'] = Auth::id();
+            $content['user_id'] = Auth::getUser()->id;
             $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
             $content['title'] = $request->get('title');
             $content['filtered'] = '';

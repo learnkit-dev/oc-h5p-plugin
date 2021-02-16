@@ -1,6 +1,6 @@
 <?php namespace LearnKit\H5p\Http;
 
-use BackendAuth;
+use Auth;
 use Illuminate\Http\Request;
 use LearnKit\H5p\Classes\H5pEvent;
 use Illuminate\Routing\Controller;
@@ -19,7 +19,7 @@ class EmbedController extends Controller
 
         event(new H5pEvent('content', null, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
 
-        $user = BackendAuth::getUser();
+        $user = Auth::getUser();
 
         return view('learnkit.h5p::content.embed', [
             'settings' => $settings,

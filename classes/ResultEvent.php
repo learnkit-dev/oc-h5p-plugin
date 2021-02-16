@@ -1,6 +1,6 @@
 <?php namespace LearnKit\H5p\Classes;
 
-use BackendAuth as Auth;
+use Auth;
 
 class ResultEvent
 {
