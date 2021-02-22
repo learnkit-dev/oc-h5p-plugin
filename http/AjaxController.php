@@ -362,6 +362,8 @@ class AjaxController extends Controller
             $preload = $request->preload;
             $invalidate = $request->invalidate;
 
+            $contentUserData = null;
+
             if ($data !== null && $preload !== null && $invalidate !== null) {
                 if ($data === '0') { // Delete user data.
                     ContentsUserData::where('content_id', $content_id)
