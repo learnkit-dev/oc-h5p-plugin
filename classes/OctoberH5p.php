@@ -1,6 +1,7 @@
 <?php namespace LearnKit\H5p\Classes;
 
 use DB;
+use Event;
 use LearnKit\H5p\Http\H5pController;
 use Illuminate\Support\Facades\App;
 
@@ -144,6 +145,8 @@ class OctoberH5p
      */
     public function get_embed($content, $settings, $no_cache = false)
     {
+        $customStyles = Event::fire('learnkit.h5p.extendStyles');
+
         // Detemine embed type
         $embed = \H5PCore::determineEmbedType($content['embedType'], $content['library']['embedTypes']);
         // Make sure content isn't added twice
@@ -167,10 +170,18 @@ class OctoberH5p
                     if (!in_array($url, $settings['loadedCss'])) {
                         $settings['loadedCss'][] = self::get_h5plibrary_url($url);
                     }
+
+                    if ($customStyles) {
+                        $files['styles'] = array_merge($files['styles'], $customStyles);
+                    }
                 }
             } elseif ($embed === 'iframe') {
                 $settings['contents'][$cid]['scripts'] = $core->getAssetsUrls($files['scripts']);
                 $settings['contents'][$cid]['styles'] = $core->getAssetsUrls($files['styles']);
+
+                if ($customStyles) {
+                    $settings['contents'][$cid]['styles'] = array_merge($settings['contents'][$cid]['styles'], $customStyles);
+                }
             }
         }
 
