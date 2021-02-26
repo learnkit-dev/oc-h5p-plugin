@@ -3,6 +3,13 @@
 # ===================================
 
 fields:
+    toolbar:
+        label: ''
+        span: full
+        type: partial
+        path: update_toolbar
+        context:
+            - update
     embed_url:
         label: Embed url
         span: left

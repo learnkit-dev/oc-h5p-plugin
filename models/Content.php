@@ -178,4 +178,11 @@ class Content extends Model
 
         event(new H5pEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
     }
+
+    public function duplicate()
+    {
+        $newContent = $this->replicate();
+        $newContent->save();
+        return $newContent;
+    }
 }
