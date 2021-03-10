@@ -12,6 +12,8 @@ class H5pEmbed extends ComponentBase
 
     public $scripts;
 
+    public $settings;
+
     public function componentDetails()
     {
         return [
@@ -46,8 +48,13 @@ class H5pEmbed extends ComponentBase
             return;
         }
 
+        //
         $h5p = App::make('OctoberH5p');
-        $settings = $h5p::get_editor();
+
+        //
+        $settings = $this->settings ? $this->settings : $h5p::get_editor();
+
+
         $content = $h5p->get_content($this->property('contentId'));
         $embed = $h5p->get_embed($content, $settings);
         $embed_code = $embed['embed'];
@@ -65,11 +72,20 @@ class H5pEmbed extends ComponentBase
         $this->page['embed_settings'] = $settings;
         $this->page['embed_code'] = $embed_code;
 
+        if ($this->settings) {
+            array_merge($this->settings['contents'], $settings['contents']);
+        } else {
+            $this->settings = $settings;
+        }
+
         /*return view('learnkit.h5p::content.embed', [
             'settings' => $settings,
             'user' => $user,
             'embed_code' => $embed_code
         ]);*/
+
+        // Add the integration configuration
+
     }
 
     public function prepareAssets()
