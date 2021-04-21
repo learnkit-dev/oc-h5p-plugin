@@ -107,16 +107,11 @@ class Plugin extends PluginBase
         return [
             'h5p' => [
                 'label'       => 'H5P',
-                'url'         => Backend::url('learnkit/h5p/dashboard'),
+                'url'         => Backend::url('learnkit/h5p/contents'),
                 'iconSvg'     => '/plugins/learnkit/h5p/assets/h5p.svg',
                 'permissions' => ['learnkit.h5p.*'],
                 'order'       => 500,
                 'sideMenu' => [
-                    'dashboard' => [
-                        'label' => 'Dashboard',
-                        'url' => Backend::url('/learnkit/h5p/dashboard'),
-                        'icon' => 'icon-dashboard',
-                    ],
                     'contents' => [
                         'label' => 'Contents',
                         'url' => Backend::url('/learnkit/h5p/contents'),
@@ -177,5 +172,14 @@ class Plugin extends PluginBase
                 }
             }
         }
+    }
+
+    public function registerMarkupTags()
+    {
+        return [
+            'functions' => [
+                'h5p' => ['LearnKit\H5p\Classes\H5pRender', 'render'],
+            ],
+        ];
     }
 }
