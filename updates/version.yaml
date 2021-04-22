@@ -22,3 +22,5 @@
     - Better localization
 1.0.6:
     - Bumped up version number for the plugin
+1.0.7:
+    - Fixed issue with more than two embeds on the same page
