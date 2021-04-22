@@ -73,7 +73,7 @@ class H5pEmbed extends ComponentBase
         $this->page['embed_code'] = $embed_code;
 
         if ($this->settings) {
-            array_merge($this->settings['contents'], $settings['contents']);
+            $this->settings['contents'] = array_merge($this->settings['contents'], $settings['contents']);
         } else {
             $this->settings = $settings;
         }
