@@ -189,4 +189,19 @@ class Content extends Model
         $newContent->save();
         return $newContent;
     }
+
+    public function getMaxScoreAttribute()
+    {
+        $maxScore = 0;
+
+        if (isset($this->parameters['answers'])) {
+            foreach ($this->parameters['answers'] as $answer) {
+                if ($answer['correct']) {
+                    $maxScore++;
+                }
+            }
+        }
+
+        return $maxScore;
+    }
 }
