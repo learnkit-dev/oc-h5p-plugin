@@ -70,7 +70,11 @@ class Content extends Model
      * @var array Relations
      */
     public $hasOne = [];
-    public $hasMany = [];
+
+    public $hasMany = [
+        'results' => Result::class,
+    ];
+
     public $hasOneThrough = [];
     public $hasManyThrough = [];
 
