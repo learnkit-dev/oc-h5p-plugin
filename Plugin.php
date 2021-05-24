@@ -1,5 +1,6 @@
 <?php namespace LearnKit\H5p;
 
+use App;
 use Config;
 use Backend;
 use BackendAuth;
@@ -65,9 +66,11 @@ class Plugin extends PluginBase
             return new H5pHelper();
         });
 
-        $this->app->bind('Illuminate\Contracts\Auth\Factory', function () {
-            return BackendAuth::instance();
-        });
+        if (App::runningInBackend()) {
+            $this->app->bind('Illuminate\Contracts\Auth\Factory', function () {
+                return BackendAuth::instance();
+            });
+        }
     }
 
     /**
