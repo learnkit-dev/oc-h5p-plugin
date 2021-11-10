@@ -186,7 +186,7 @@ class AjaxController extends Controller
                 'max_score' => input('maxScore') ? input('maxScore') : 0,
                 'opened' => $previous_result ? $previous_result->opened : now(),
                 'finished' => $finished ? now() : null,
-                'time' => round(str_replace(['PT', 'S'], '', (int) input('finished') - (int) input('opened'))),
+                'time' => 0,
                 'description' => $request->has('object.definition.description') ? json_encode($request->input('object.definition.description')) : ($request->has('object.definition.name') ? json_encode($request->input('object.definition.name') ): null),
                 'correct_responses_pattern' => $request->has('object.definition.correctResponsesPattern') ? json_encode($request->input('object.definition.correctResponsesPattern')) : null,
                 'response' => $request->has('result.response') ? json_encode($request->input('result.response')) : null,
