@@ -115,12 +115,7 @@ class Plugin extends PluginBase
                 'permissions' => ['learnkit.h5p.*'],
                 'order'       => 500,
                 'sideMenu' => [
-                    'dashboard' => [
-                        'label' => 'Dashboard',
-                        'url' => Backend::url('/learnkit/h5p/dashboard'),
-                        'icon' => 'icon-dashboard',
-                    ],
-                    'contents' => [
+                     'contents' => [
                         'label' => 'Contents',
                         'url' => Backend::url('/learnkit/h5p/contents'),
                         'icon' => 'icon-list',
@@ -128,7 +123,7 @@ class Plugin extends PluginBase
                     'libraries' => [
                         'label' => 'Libraries',
                         'url' => Backend::url('/learnkit/h5p/libraries'),
-                        'icon' => 'icon-list',
+                        'icon' => 'icon-upload',
                     ],
                 ],
             ],
