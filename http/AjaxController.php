@@ -197,11 +197,6 @@ class AjaxController extends Controller
                 'completion' => $finished ? 100 : 0
             ];
 
-			if((int)$result['time'] == 0){//ne pas reset le temps deja pris en compte
-				unset($result['time']);
-			}
-
-
             if ($previous_result) {//maj
                 $previous_result->update($result);
 
